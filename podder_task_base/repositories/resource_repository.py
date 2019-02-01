@@ -1,7 +1,7 @@
 from typing import Any, List
 
-from framework.models import ResourceModel
-from framework.repositories.base import BaseRepository
+from podder_task_base.models import ResourceModel
+from podder_task_base.repositories.base import BaseRepository
 from sqlalchemy.orm.session import Session
 
 
@@ -24,5 +24,5 @@ class ResourceRepository(BaseRepository):
 
     def find_by_unique_key(self, job_id: str, resource_id: str) -> ResourceModel:
         return self.session.query(self.model_class).filter(
-            self.model_class.job_id == job_id, 
+            self.model_class.job_id == job_id,
             self.model_class.resource_id == resource_id).one_or_none()

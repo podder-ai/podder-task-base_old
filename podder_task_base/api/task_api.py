@@ -3,7 +3,7 @@ import json
 import pipeline_framework_pb2
 import pipeline_framework_pb2_grpc
 from app import Task
-from framework import Context, settings
+from podder_task_base import Context, settings
 
 
 class PocBaseApi(pipeline_framework_pb2_grpc.PocBaseApiServicer):

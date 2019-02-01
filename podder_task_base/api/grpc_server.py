@@ -7,7 +7,7 @@ import grpc
 from daemon import pidfile
 
 import pipeline_framework_pb2_grpc
-from framework.api.task_api import PocBaseApi
+from podder_task_base.api.task_api import PocBaseApi
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 DEFAULT_MAX_WORKERS = 10

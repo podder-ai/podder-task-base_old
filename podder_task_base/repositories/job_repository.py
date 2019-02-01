@@ -1,7 +1,7 @@
 from typing import Any, List
 
-from framework.models import JobModel
-from framework.repositories.base import BaseRepository
+from podder_task_base.models import JobModel
+from podder_task_base.repositories.base import BaseRepository
 from sqlalchemy.orm.session import Session
 
 

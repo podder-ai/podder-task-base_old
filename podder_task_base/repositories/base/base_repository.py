@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-from framework.context import Context
+from podder_task_base.context import Context
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm.session import Session
 

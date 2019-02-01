@@ -1,7 +1,7 @@
 import json
 import uuid
 from typing import List, Dict
-from framework import Context
+from podder_task_base import Context
 
 '''
 This service is only used for main.py.
