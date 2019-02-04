@@ -10,13 +10,13 @@ from daemon import pidfile
 class GrpcServer(object):
     _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
-    def __init(self, stdout_file: str, stderr_file: str, pidfile_path: str,
-               task_class: Any, max_workers: int, port: int, add_servicer_method: Any,
-               task_api_class: Any):
+    def __init__(self, stdout_file: str, stderr_file: str, pidfile_path: str,
+                 execution_task: Any, max_workers: int, port: int,
+                 add_servicer_method: Any, task_api_class: Any):
         self.stdout_file = stdout_file
         self.stderr_file = stderr_file
         self.pidfile_path = pidfile_path
-        self.task_class = task_class
+        self.execution_task = execution_task
         self.max_workers = max_workers
         self.port = port
         self.add_servicer_to_server = add_servicer_method
