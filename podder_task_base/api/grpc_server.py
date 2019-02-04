@@ -1,16 +1,29 @@
 import os
 import time
 from concurrent import futures
+from typing import Any
 
+import daemon
 import grpc
+from daemon import pidfile
 
-from protos import pipeline_framework_pb2_grpc
 from podder_task_base.api.task_api import PocBaseApi
+from protos import pipeline_framework_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 DEFAULT_MAX_WORKERS = 10
 DEFAULT_PORT = 50051
-GRPC_PID_FILE = os.environ.get("GRPC_PID_FILE")
+
+
+def run_grpc_server(stdout_file: str, stderr_file: str, pidfile_path: str, task_class: Any):
+    """
+    Run gRPC server with new daemon process.
+    """
+    pid_lock_file = pidfile.PIDLockFile(pidfile_path)
+    with daemon.DaemonContext(
+            stdout=stdout_file, stderr=stderr_file, pidfile=pid_lock_file,
+            detach_process=True):
+        serve(execution_task=task_class)
 
 
 def serve(execution_task):
