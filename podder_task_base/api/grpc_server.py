@@ -1,4 +1,3 @@
-import os
 import time
 from concurrent import futures
 from typing import Any
@@ -11,27 +10,23 @@ from podder_task_base.api.task_api import PocBaseApi
 from protos import pipeline_framework_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-DEFAULT_MAX_WORKERS = 10
-DEFAULT_PORT = 50051
 
 
-def run_grpc_server(stdout_file: str, stderr_file: str, pidfile_path: str, task_class: Any):
+def run_grpc_server(stdout_file: str, stderr_file: str, pidfile_path: str,
+                    task_class: Any, max_workers: int, port: int):
     """
     Run gRPC server with new daemon process.
     """
     pid_lock_file = pidfile.PIDLockFile(pidfile_path)
     with daemon.DaemonContext(
-            stdout=stdout_file, stderr=stderr_file, pidfile=pid_lock_file,
+            stdout=stdout_file,
+            stderr=stderr_file,
+            pidfile=pid_lock_file,
             detach_process=True):
-        serve(execution_task=task_class)
+        serve(task_class, max_workers, port)
 
 
-def serve(execution_task):
-    max_workers = os.environ.get("GRPC_MAX_WORKERS") if os.environ.get(
-        "GRPC_MAX_WORKERS") else DEFAULT_MAX_WORKERS
-    port = os.environ.get("GRPC_PORT") if os.environ.get(
-        "GRPC_PORT") else DEFAULT_PORT
-
+def serve(execution_task: Any, max_workers: int, port: int):
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=int(max_workers)))
     pipeline_framework_pb2_grpc.add_PocBaseApiServicer_to_server(

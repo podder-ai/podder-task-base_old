@@ -9,7 +9,7 @@ def init() -> None:
 
 
 def get(key: str) -> Optional[str]:
-    return os.environ.get(key)
+    return os.getenv(key)
 
 
 # Shortcut variables for Framework.

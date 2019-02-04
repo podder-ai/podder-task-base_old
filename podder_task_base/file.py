@@ -7,7 +7,7 @@ class File(object):
     """
 
     def __init__(self):
-        self.root_path = os.environ.get("POC_BASE_ROOT") if os.environ.get("POC_BASE_ROOT") else ''
+        self.root_path = os.getenv("POC_BASE_ROOT", '')
 
     def get_shared_path(self, path: str = '') -> str:
         """
@@ -19,10 +19,12 @@ class File(object):
         """
         Returns absolute path to `shared/data` directory.
         """
-        return os.path.abspath(os.path.join(self.root_path, 'shared', 'data', path))
+        return os.path.abspath(
+            os.path.join(self.root_path, 'shared', 'data', path))
 
     def get_tmp_path(self, path: str = '') -> str:
         """
         Returns absolute path to `shared/tmp` directory.
         """
-        return os.path.abspath(os.path.join(self.root_path, 'shared', 'tmp', path))
+        return os.path.abspath(
+            os.path.join(self.root_path, 'shared', 'tmp', path))
