@@ -1,13 +1,12 @@
 import json
 
-from protos import pipeline_framework_pb2
-from protos import pipeline_framework_pb2_grpc
 from podder_task_base import Context, settings
 
 
-class PocBaseApi(pipeline_framework_pb2_grpc.PocBaseApiServicer):
-    def __init__(self, execution_task):
+class TaskApiExecutor(object):
+    def __init__(self, execution_task, gprc_pb2):
         self.execution_task = execution_task
+        self.gprc_pb2 = gprc_pb2
 
     def execute(self, request, _context):
         settings.init()
@@ -28,7 +27,7 @@ class PocBaseApi(pipeline_framework_pb2_grpc.PocBaseApiServicer):
         return inputs
 
     def _convert_to_task_response(self, dag_id: str, outputs):
-        task_response = pipeline_framework_pb2.TaskResponse()
+        task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
         for output in outputs:
             task_response.results.add(job_id=output['job_id'], job_data=json.dumps(output['job_data']))
