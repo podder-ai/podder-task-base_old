@@ -1,6 +1,3 @@
 # podder-task-base
 
-This is base package used by [podder-task](https://github.com/podder-ai/podder-task). 
-
-
- 
+`podder-task-base` is a Python module that provides useful APIs for [podder-task](https://github.com/podder-ai/podder-task).
