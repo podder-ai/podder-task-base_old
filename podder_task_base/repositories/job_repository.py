@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from podder_task_base.models import JobModel
+from podder_task_base.models.pipeline import JobModel
 from podder_task_base.repositories.base import BaseRepository
 from sqlalchemy.orm.session import Session
 
