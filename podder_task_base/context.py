@@ -6,9 +6,10 @@ from .logger import Logger
 
 
 class Context(object):
-    def __init__(self, dag_id: str) -> None:
+    def __init__(self, dag_id: str, run_test: bool) -> None:
         self.logger = Logger()
         self.config = Config()
         self.file = File()
         self.session = PipelineSession()
         self.dag_id = dag_id
+        self.run_test = run_test

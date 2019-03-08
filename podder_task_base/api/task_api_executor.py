@@ -11,7 +11,7 @@ class TaskApiExecutor(object):
     def execute(self, request, _context):
         settings.init()
         dag_id = request.dag_id
-        context = Context(dag_id)
+        context = Context(dag_id, _context.run_test)
         inputs = self._convert_to_input_data(request)
         outputs = self.execution_task(context).execute(inputs)
         task_response = self._convert_to_task_response(dag_id, outputs)
