@@ -36,13 +36,6 @@ class Logger(object):
         self.logger.error(msg, extra=self._create_extra())
 
     # private
-    # def _add_default_handler(self):
-    #     handler = logging.StreamHandler(sys.stdout)
-    #     handler.setFormatter(
-    #         logging.Formatter("%(asctime)s %(levelname)s %(name)s %(progresstime)s %(message)s")
-    #     )
-    #     self.logger.addHandler(handler)
-
     def _create_extra(self):
         ex = {}
         ex['progresstime'] = str(round((time.time() - self.start_time), 3))
