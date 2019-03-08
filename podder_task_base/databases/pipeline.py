@@ -5,7 +5,9 @@ from sqlalchemy.orm import sessionmaker
 
 from podder_task_base.settings import PIPELINE_DATABASE_URL
 
+from . import log
 
-engine: Engine = create_engine(PIPELINE_DATABASE_URL, echo=True)
+
+engine: Engine = create_engine(PIPELINE_DATABASE_URL, echo=False)
 
 Session: DeclarativeMeta = sessionmaker(bind=engine)
