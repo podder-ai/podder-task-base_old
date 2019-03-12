@@ -13,5 +13,6 @@ setup(
         'python-daemon',
         'mysqlclient',
         'SQLAlchemy',
+        'PyYAML',
     ],
 )
