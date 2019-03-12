@@ -22,9 +22,9 @@ class LogSetting:
             # if "log.yml" not found, load defalut values
             ret = {
                 "task_name": "task-name-sample",
-                "task_log_format": "%(asctime)s:%(levelname)s:%(message)s",
+                "task_log_format": "[%(asctime)s] %(levelname)s - %(message)s",
                 "task_log_level": logging.DEBUG,
-                "sql_log_format": "%(asctime)s:%(levelname)s:%(message)s",
-                "sql_log_level": logging.INFO,
+                "sql_log_format": "[%(asctime)s] %(levelname)s - %(message)s",
+                "sql_log_level": logging.WARN,
             }
         return ret

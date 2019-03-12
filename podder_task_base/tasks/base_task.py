@@ -1,10 +1,12 @@
 from typing import Any
 
 from podder_task_base import Context
+from podder_task_base.log import logger
 
 DATA_PATH = "data/"
 
 
+@logger.class_logger
 class BaseTask(object):
     """
     Abstract task class.
@@ -14,6 +16,7 @@ class BaseTask(object):
     def __init__(self, context: Context) -> None:
         self.context = context
         self.set_arguments()
+        self.logger.init_tasktime()
 
     def execute(self) -> Any:
         pass

@@ -1,8 +1,7 @@
 import logging
 import sys
-import errno
-import os
 import time
+import inspect
 
 from .log_setting import LogSetting
 
@@ -10,41 +9,51 @@ from .log_setting import LogSetting
 class Logger(object):
     def __init__(self):
         self.start_time = time.time()
+        self.task_start_time = time.time()
         self.setting = LogSetting().load()
         self.logger = logging.getLogger('podder.task')
-        self.logger.setLevel(self.setting["task_log_level"])
-        if self.logger.hasHandlers() is False:
-            format = self.setting["task_log_format"]
-            self._add_default_handler(format)
+        self.logger.propagate = False
+        format = self.setting["task_log_format"]
+        level = self.setting["task_log_level"]
+        self.logger.setLevel(level)
+        self._add_default_handler(format, level)
+
+    def init_tasktime(self):
+        self.task_start_time = time.time()
 
     def warning(self, msg, *args, **kwargs):
-        self.logger.warning(msg, extra=self._create_extra())
+        self.logger.warning(msg, extra=self._create_extra(), *args, **kwargs)
 
     def warn(self, msg, *args, **kwargs):
-        self.logger.warning(msg, extra=self._create_extra())
+        self.logger.warning(msg, extra=self._create_extra(), *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self.logger.info(msg, extra=self._create_extra())
+        self.logger.info(msg, extra=self._create_extra(), *args, **kwargs)
 
     def debug(self, msg, *args, **kwargs):
-        self.logger.debug(msg, extra=self._create_extra())
+        self.logger.debug(msg, extra=self._create_extra(), *args, **kwargs)
 
     def log(self, msg, *args, **kwargs):
-        self.logger.log(msg, extra=self._create_extra())
+        self.logger.log(msg, extra=self._create_extra(), *args, **kwargs)
 
     def error(self, msg, *args, **kwargs):
-        self.logger.error(msg, extra=self._create_extra())
+        self.logger.error(msg, extra=self._create_extra(), *args, **kwargs)
 
     # private
     def _create_extra(self):
         ex = {}
         ex['progresstime'] = str(round((time.time() - self.start_time), 3))
-        ex['taskname'] = self.setting["task_name"]
+        ex['tasktime'] = str(round((time.time() - self.task_start_time), 3))
+        ex['taskname'] = str(self.setting["task_name"])
+        caller_info = sys._getframe(2) # caller of 2 level depth
+        module_info = inspect.getmodule(caller_info)
+        script_info = inspect.getsourcelines(caller_info)[1]
+        ex['scriptinfo'] = "%s:%s" % (module_info, script_info)
         return ex
 
-    def _add_default_handler(self, format):
+    def _add_default_handler(self, format, level):
         handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(self.setting["task_log_level"])
+        handler.setLevel(level)
         handler.setFormatter(
             logging.Formatter(format)
         )
@@ -54,6 +63,7 @@ class Logger(object):
 def class_logger(cls):
     global _is_logged
     if _is_logged is False:
+        logging.basicConfig()
         _is_logged = Logger()
 
     cls.logger = _is_logged
