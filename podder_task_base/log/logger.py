@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+import datetime
 import inspect
 
 from .log_setting import LogSetting
@@ -49,13 +50,16 @@ class Logger(object):
         module_info = inspect.getmodule(caller_info)
         script_info = inspect.getsourcelines(caller_info)[1]
         ex['scriptinfo'] = "%s:%s" % (module_info, script_info)
+        # original time code, because logging "datefmt" is not support microsecond
+        now = datetime.datetime.now()
+        ex['time'] = now.strftime("%Y-%m-%d %H:%M:%S.") + "%06d" % now.microsecond
         return ex
 
     def _add_default_handler(self, format, level):
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(level)
         handler.setFormatter(
-            logging.Formatter(format)
+            logging.Formatter(fmt=format, datefmt='%Y-%m-%d %H:%M:%S')
         )
         self.logger.addHandler(handler)
 

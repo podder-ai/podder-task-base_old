@@ -19,6 +19,6 @@ class SqlalchemyLoggerSetting():
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(level)
         handler.setFormatter(
-            logging.Formatter(format)
+            logging.Formatter(fmt=format, datefmt='%Y-%m-%d %H:%M:%S')
         )
         sqlalchemy_logger.addHandler(handler)
