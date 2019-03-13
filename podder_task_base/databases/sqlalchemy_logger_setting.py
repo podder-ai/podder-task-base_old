@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from podder_task_base.log.log_setting import LogSetting
 
@@ -12,12 +13,12 @@ class SqlalchemyLoggerSetting():
         logging.basicConfig()
 
         sqlalchemy_logger = logging.getLogger('sqlalchemy.engine')
+        sqlalchemy_logger.propagate = False
         sqlalchemy_logger.setLevel(level)
 
-        if sqlalchemy_logger.hasHandlers() is False:
-            handler = logging.StreamHandler(sys.stdout)
-            handler.setLevel(level)
-            handler.setFormatter(
-                logging.Formatter(format)
-            )
-            sqlalchemy_logger.addHandler(handler)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(level)
+        handler.setFormatter(
+            logging.Formatter(fmt=format, datefmt='%Y-%m-%d %H:%M:%S')
+        )
+        sqlalchemy_logger.addHandler(handler)
