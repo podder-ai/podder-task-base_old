@@ -10,7 +10,7 @@ install_requires = ['grpcio-tools==1.18.0',
 
 setup(
     name='podder-task-base',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(),
     author="podder-ai",
     url='https://github.com/podder-ai/podder-task-base',
