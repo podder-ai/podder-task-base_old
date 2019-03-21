@@ -5,3 +5,4 @@ mysqlclient==1.4.1
 SQLAlchemy==1.2.17
 python-dotenv==0.10.1
 PyYAML==5.1
+click==6.7

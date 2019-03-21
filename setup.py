@@ -6,11 +6,12 @@ install_requires = ['grpcio-tools==1.18.0',
                     'mysqlclient==1.4.1',
                     'SQLAlchemy==1.2.17',
                     'python-dotenv==0.10.1',
+                    'click==6.7',
                     'PyYAML==5.1']
 
 setup(
     name='podder-task-base',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(),
     author="podder-ai",
     url='https://github.com/podder-ai/podder-task-base',

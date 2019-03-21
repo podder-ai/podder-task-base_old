@@ -7,9 +7,9 @@ from podder_task_base.settings import PIPELINE_DATABASE_URL
 
 from .sqlalchemy_logger_setting import SqlalchemyLoggerSetting
 
-
-engine: Engine = create_engine(PIPELINE_DATABASE_URL, echo=False)
-
-Session: DeclarativeMeta = sessionmaker(bind=engine)
-
-SqlalchemyLoggerSetting()
+if PIPELINE_DATABASE_URL is not None:
+    engine: Engine = create_engine(PIPELINE_DATABASE_URL, echo=False)
+    Session: DeclarativeMeta = sessionmaker(bind=engine)
+    SqlalchemyLoggerSetting()
+else:
+    Session: DeclarativeMeta = None
