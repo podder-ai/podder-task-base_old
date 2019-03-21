@@ -1,6 +1,5 @@
 from typing import Any
 import os
-import shutil
 
 from podder_task_base.task_initializer.builders.base_builder import BaseBuilder
 

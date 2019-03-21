@@ -8,4 +8,5 @@ class PodderTaskApi(pipeline_framework_pb2_grpc.PodderTaskApiServicer):
         self.execution_task = execution_task
 
     def execute(self, request, context):
-        return TaskApiExecutor(self.execution_task, pipeline_framework_pb2).execute(request, context)
+        return TaskApiExecutor(self.execution_task, pipeline_framework_pb2).
+            execute(request, context)

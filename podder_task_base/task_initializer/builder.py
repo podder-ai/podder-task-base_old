@@ -1,9 +1,8 @@
 import click
 from stat import S_IRWXU, S_IRGRP, S_IXGRP, S_IROTH, S_IXOTH
 
-from podder_task_base.task_initializer.builders.base_builder import BaseBuilder
-from podder_task_base.task_initializer.builders.filecopy_builder import FilecopyBuilder
-from podder_task_base.task_initializer.builders.mkdir_builder import MkdirBuilder
+from podder_task_base.task_initializer.builders import FilecopyBuilder
+from podder_task_base.task_initializer.builders import MkdirBuilder
 
 
 class Builder(object):
