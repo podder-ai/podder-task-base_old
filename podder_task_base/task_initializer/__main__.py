@@ -21,8 +21,9 @@ def task_initializer():
 # [cli.py run-file] command
 @click.command()
 @click.argument('target-dir')
-def init(target_dir: str):
-    Builder(target_dir).init_task()
+@click.argument('task-name')
+def init(target_dir: str, task_name: str):
+    Builder(target_dir, task_name).init_task()
 
 
 task_initializer.add_command(init)

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pipeline_framework;
 
-service PodderTaskApi {
+service {{ task_class }}Api {
     rpc execute (TaskResponse) returns (TaskResponse) {}
 }
 
