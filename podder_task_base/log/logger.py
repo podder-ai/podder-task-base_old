@@ -46,7 +46,7 @@ class Logger(object):
         ex['progresstime'] = str(round((time.time() - self.start_time), 3))
         ex['tasktime'] = str(round((time.time() - self.task_start_time), 3))
         ex['taskname'] = str(self.setting["task_name"])
-        caller_info = sys._getframe(2) # caller of 2 level depth
+        caller_info = sys._getframe(2)  # caller of 2 level depth
         module_info = inspect.getmodule(caller_info)
         script_info = inspect.getsourcelines(caller_info)[1]
         ex['scriptinfo'] = "%s:%s" % (module_info, script_info)
@@ -72,5 +72,6 @@ def class_logger(cls):
 
     cls.logger = _is_logged
     return cls
+
 
 _is_logged = False

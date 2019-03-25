@@ -32,4 +32,3 @@ class File(object):
         Returns absolute path to `tmp` directory.
         """
         return os.path.abspath(os.path.join(self.root_path, 'tmp', path))
-
