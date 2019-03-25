@@ -20,11 +20,10 @@ setup(
     include_package_data=True,
     install_requires=install_requires,
     package_data = {
-#        'podder_task_base': ['*.txt', '*.sh'],
         'podder_task_base': [
             'task_initializer/templates/*',
             'task_initializer/templates/api/*',
-            'task_initializer/templates/api/protos/*', 
+            'task_initializer/templates/api/protos/*',
             'task_initializer/templates/scripts/*',
         ],
     },
