@@ -4,5 +4,5 @@ from podder_task_base.utils.version import get_version
 
 __all__ = ['Context', 'Config']
 
-VERSION = (0, 1, 3)
+VERSION = (0, 1, 4)
 __version__ = get_version(VERSION)

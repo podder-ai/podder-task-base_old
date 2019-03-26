@@ -18,12 +18,14 @@ def task_initializer():
     pass
 
 
-# [cli.py run-file] command
+# [python -m podder_task_base.task_initializer init] command
 @click.command()
-@click.argument('target-dir')
 @click.argument('task-name')
-def init(target_dir: str, task_name: str):
-    Builder(target_dir, task_name).init_task()
+@click.option('--target-dir', '-t',
+    default='/usr/local/poc_base',
+    help="install directory")
+def init(task_name: str, target_dir: str):
+    Builder(task_name, target_dir).init_task()
 
 
 task_initializer.add_command(init)
