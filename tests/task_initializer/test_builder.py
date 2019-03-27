@@ -7,27 +7,27 @@ sys.path.append("./")
 from podder_task_base.task_initializer.builder import Builder
 
 
-def find_all_files(directory):
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            yield os.path.join(root, file)
+class TestBuilder:
+    TEST_TMP_PATH = './tests/tmp'
+    TASK_NAME = 'test-sample-task'
+
+    def teardown_method(self, _method):
+        if os.path.exists(self.TEST_TMP_PATH):
+            shutil.rmtree(self.TEST_TMP_PATH)
 
 
-def test_builder():
-    target_dir = "./test_dir"
-    task_name = "sample-task"
-    try:
-        Builder(task_name, target_dir).init_task()
+    def test_builder(self):
+        Builder(self.TASK_NAME, self.TEST_TMP_PATH).init_task()
 
         template_dir = './podder_task_base/task_initializer/templates'
         base_set = set()
-        for file in find_all_files(template_dir):
+        for file in self._find_all_files(template_dir):
             path = os.path.relpath(file, start=template_dir)
             base_set.add(path)
 
         test_set = set()
-        for file in find_all_files(target_dir):
-            path = os.path.relpath(file, start=target_dir)
+        for file in self._find_all_files(self.TEST_TMP_PATH):
+            path = os.path.relpath(file, start=self.TEST_TMP_PATH)
             test_set.add(path)
 
         print("--base_set--")
@@ -39,5 +39,7 @@ def test_builder():
 
         assert base_set == test_set
 
-    finally:
-        shutil.rmtree(target_dir)
+    def _find_all_files(self, directory):
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                yield os.path.join(root, file)
