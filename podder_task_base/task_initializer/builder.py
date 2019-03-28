@@ -1,3 +1,4 @@
+import os
 import click
 from stat import S_IRWXU, S_IRGRP, S_IXGRP, S_IROTH, S_IXOTH
 
@@ -9,9 +10,11 @@ from podder_task_base.task_initializer.builders import GrpcTaskBuilder
 class Builder(object):
     CHMOD755 = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
 
-    def __init__(self, target_dir: str, task_name: str) -> None:
+    def __init__(self, task_name: str, target_dir: str) -> None:
         self.target_dir = target_dir
         self.task_name = task_name
+        if not os.path.exists(target_dir):
+            os.mkdir(target_dir)
 
     def init_task(self) -> None:
         builders = [
@@ -20,10 +23,13 @@ class Builder(object):
             [MkdirBuilder   , 'output'                             , None],
             [MkdirBuilder   , 'tmp'                                , None],
             [MkdirBuilder   , 'error'                              , None],
+            [FilecopyBuilder, '__init__.py'                        , None],
             [FilecopyBuilder, 'requirements.default.txt'           , None],
             [FilecopyBuilder, 'pytest.ini'                         , None],
+            [FilecopyBuilder, 'main.py'                            , None],
             [FilecopyBuilder, 'run_codegen.py'                     , self.CHMOD755],
             [MkdirBuilder   , 'scripts'                            , None],
+            [FilecopyBuilder, 'scripts/__init__.py'                , None],
             [FilecopyBuilder, 'scripts/entrypoint.sh'              , self.CHMOD755],
             [FilecopyBuilder, 'scripts/pre-commit.sh'              , self.CHMOD755],
             [FilecopyBuilder, 'scripts/restart_grpc_server.sh'     , self.CHMOD755],
