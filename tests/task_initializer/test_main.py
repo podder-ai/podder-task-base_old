@@ -1,8 +1,6 @@
-import sys
 from click.testing import CliRunner
 from unittest.mock import patch
 
-sys.path.append("./")
 from podder_task_base.task_initializer import __main__
 
 

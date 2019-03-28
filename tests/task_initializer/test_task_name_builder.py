@@ -1,14 +1,12 @@
 import os
 import shutil
-import sys
 import re
 from unittest.mock import patch
 
-sys.path.append("./")
-from podder_task_base.task_initializer.builders import GrpcTaskBuilder
+from podder_task_base.task_initializer.builders import TaskNameBuilder
 
 
-class TestGrpcTaskFilecopyBuilder:
+class TestTaskNameBuilder:
     TARGET_DIR = "tests/tmp"
 
     def setup_method(self, _method):
@@ -19,12 +17,15 @@ class TestGrpcTaskFilecopyBuilder:
         if os.path.exists(self.TARGET_DIR):
             shutil.rmtree(self.TARGET_DIR)
 
-    def test_filecopy_builder_execute_option_none(self):
+    def test_task_name_builder_execute_option_none(self):
         os.mkdir(os.path.join(self.TARGET_DIR, 'api'))
+
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        templates_dir = os.path.join(this_dir, "../../podder_task_base/task_initializer/templates")
 
         file = "api/task_api.py"
         option = "test-sample-task"
-        GrpcTaskBuilder().execute(self.TARGET_DIR, file, option)
+        TaskNameBuilder(templates_dir).execute(self.TARGET_DIR, file, option)
         dst_path = os.path.join(self.TARGET_DIR, file)
         assert os.path.isfile(dst_path)
 
