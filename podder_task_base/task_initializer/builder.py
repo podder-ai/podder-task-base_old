@@ -25,6 +25,11 @@ class Builder(object):
             ignore=shutil.ignore_patterns('__pycache__'))
 
         builders = [
+            [MkdirBuilder   , 'config'                             , None],
+            [MkdirBuilder   , 'input'                              , None],
+            [MkdirBuilder   , 'output'                             , None],
+            [MkdirBuilder   , 'tmp'                                , None],
+            [MkdirBuilder   , 'error'                              , None],
             [FilecopyBuilder, 'run_codegen.py'                     , self.CHMOD755],
             [TaskNameBuilder, 'task_name.ini'                      , self.task_name],
             [FilecopyBuilder, 'scripts/entrypoint.sh'              , self.CHMOD755],
