@@ -1,14 +1,13 @@
 import os
+from pathlib import Path
 import shutil
-import sys
 from unittest.mock import patch
 
-sys.path.append("./")
 from podder_task_base.task_initializer.builder import Builder
 
 
 class TestBuilder:
-    TEST_TMP_PATH = './tests/tmp'
+    TEST_TMP_PATH = './tests/tmp_test_builder'
     TASK_NAME = 'test-sample-task'
 
     def teardown_method(self, _method):
@@ -19,10 +18,13 @@ class TestBuilder:
     def test_builder(self):
         Builder(self.TASK_NAME, self.TEST_TMP_PATH).init_task()
 
-        template_dir = './podder_task_base/task_initializer/templates'
+        this_dir = Path(__file__).resolve().parent
+        templates_dir = str(this_dir.joinpath(
+            "../../podder_task_base/task_initializer/templates").resolve())
+
         base_set = set()
-        for file in self._find_all_files(template_dir):
-            path = os.path.relpath(file, start=template_dir)
+        for file in self._find_all_files(templates_dir):
+            path = os.path.relpath(file, start=templates_dir)
             base_set.add(path)
 
         test_set = set()

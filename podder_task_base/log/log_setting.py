@@ -1,11 +1,12 @@
 import logging
-import os
+from pathlib import Path
 
 import yaml
 
 
 class LogSetting:
-    LOG_YML_PATH = 'log.yml'
+    PIPELINE_YML_PATH = str(Path('config/pipeline.yml'))
+    TASK_NAME_PATH = 'task_name.ini'
     _log_setting = None
 
     def load(self):
@@ -14,17 +15,32 @@ class LogSetting:
         return(LogSetting._log_setting)
 
     def _load_log_yml(self):
-        file_path = self.LOG_YML_PATH
-        if os.path.exists(file_path):
-            with open(file_path, 'r') as stream:
-                ret = yaml.load(stream)
+        with open(self.PIPELINE_YML_PATH, 'r') as stream:
+            pipeline_yml_data = yaml.load(stream)
+
+        with open(self.TASK_NAME_PATH, 'r') as stream:
+            task_name = stream.read()
+
+        ret = {}
+        ret['task_name'] = task_name
+        if pipeline_yml_data.get('task_log_format') is None:
+            ret['task_log_format'] = "[%(asctime)s] %(levelname)s - %(message)s"
         else:
-            # if "log.yml" not found, load defalut values
-            ret = {
-                "task_name": "task-name-sample",
-                "task_log_format": "[%(asctime)s] %(levelname)s - %(message)s",
-                "task_log_level": logging.DEBUG,
-                "sql_log_format": "[%(asctime)s] %(levelname)s - %(message)s",
-                "sql_log_level": logging.WARN,
-            }
+            ret['task_log_format'] = '"' + pipeline_yml_data['task_log_format'] + '"'
+
+        if pipeline_yml_data.get('task_log_level') is None:
+            ret['task_log_level'] = logging.DEBUG
+        else:
+            ret['task_log_level'] = pipeline_yml_data['task_log_level']
+
+        if pipeline_yml_data.get('sql_log_format') is None:
+            ret['sql_log_format'] = "[%(asctime)s] %(levelname)s - %(message)s"
+        else:
+            ret['sql_log_format'] = '"' + pipeline_yml_data['task_log_format'] + '"'
+
+        if pipeline_yml_data.get('sql_log_level') is None:
+            ret['sql_log_level'] = logging.WARN
+        else:
+            ret['sql_log_level'] = pipeline_yml_data['sql_log_level']
+
         return ret
