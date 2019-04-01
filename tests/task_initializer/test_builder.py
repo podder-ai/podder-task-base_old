@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import shutil
 from unittest.mock import patch
 
@@ -17,8 +18,9 @@ class TestBuilder:
     def test_builder(self):
         Builder(self.TASK_NAME, self.TEST_TMP_PATH).init_task()
 
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        templates_dir = os.path.join(this_dir, "../../podder_task_base/task_initializer/templates")
+        this_dir = Path(__file__).resolve().parent
+        templates_dir = str(this_dir.joinpath(
+            "../../podder_task_base/task_initializer/templates").resolve())
 
         base_set = set()
         for file in self._find_all_files(templates_dir):

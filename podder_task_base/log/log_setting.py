@@ -1,11 +1,11 @@
 import logging
-import os
+from pathlib import Path
 
 import yaml
 
 
 class LogSetting:
-    PIPELINE_YML_PATH = 'config/pipeline.yml'
+    PIPELINE_YML_PATH = str(Path('config/pipeline.yml'))
     TASK_NAME_PATH = 'task_name.ini'
     _log_setting = None
 
