@@ -1,0 +1,33 @@
+version: 2.1
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.6
+jobs:
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install requirements
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run pytest
+          command: |
+            . venv/bin/activate
+            PYTHONPATH=. pytest
+workflows:
+  build:
+    jobs:
+      - test
