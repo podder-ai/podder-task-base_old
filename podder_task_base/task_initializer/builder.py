@@ -1,11 +1,12 @@
-import click
 import shutil
 from pathlib import Path
-from stat import S_IRWXU, S_IRGRP, S_IXGRP, S_IROTH, S_IXOTH
+from stat import S_IRGRP, S_IROTH, S_IRWXU, S_IXGRP, S_IXOTH
 
-from podder_task_base.task_initializer.builders import FilecopyBuilder
-from podder_task_base.task_initializer.builders import MkdirBuilder
-from podder_task_base.task_initializer.builders import TaskNameBuilder
+import click
+
+from podder_task_base.task_initializer.builders import (FilecopyBuilder,
+                                                        MkdirBuilder,
+                                                        TaskNameBuilder)
 
 
 class Builder(object):

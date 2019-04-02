@@ -1,8 +1,9 @@
 from typing import Any, List
 
+from sqlalchemy.orm.session import Session
+
 from podder_task_base.models.pipeline import ResourceModel
 from podder_task_base.repositories.base import BaseRepository
-from sqlalchemy.orm.session import Session
 
 
 class ResourceRepository(BaseRepository):

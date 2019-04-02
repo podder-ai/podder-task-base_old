@@ -1,7 +1,6 @@
 from app import Task
-from podder_task_base import Context
+from podder_task_base import Context, settings
 from podder_task_base.services import InputsService
-from podder_task_base import settings
 
 DAG_ID = "___dag_id___"
 
