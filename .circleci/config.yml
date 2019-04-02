@@ -63,9 +63,9 @@ workflows:
   build:
     jobs:
       - deploy:
-        filters:
-          tags:
-            only: /.*/
-          branches:
-            ignore: /.*/
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
       - test
