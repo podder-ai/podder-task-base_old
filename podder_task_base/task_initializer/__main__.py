@@ -3,9 +3,8 @@ podder task base - task TaskInitializer
 """
 import click
 
-from podder_task_base.task_initializer.builder import Builder
 from podder_task_base import __version__
-
+from podder_task_base.task_initializer.builder import Builder
 
 # CLI codes.
 # Add '-h' option
