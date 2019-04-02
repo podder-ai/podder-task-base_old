@@ -5,6 +5,8 @@ executors:
       - image: circleci/python:3.6
 jobs:
   deploy:
+    executor:
+      name: default
     steps:
       - checkout
       - restore_cache:
