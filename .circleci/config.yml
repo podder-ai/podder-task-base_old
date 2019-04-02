@@ -1,0 +1,71 @@
+version: 2.1
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.6
+jobs:
+  deploy:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install requirements
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+            pip install wheel
+            python -m pip install twine
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: create package & upload to pypi
+          command: |
+            source venv/bin/activate
+            python setup.py sdist bdist_wheel
+            twine upload --skip-existing dist/*
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install requirements
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Run pytest
+          command: |
+            . venv/bin/activate
+            PYTHONPATH=. pytest
+workflows:
+  build:
+    jobs:
+      - deploy:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - test

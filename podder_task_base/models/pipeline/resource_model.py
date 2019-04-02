@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import TIMESTAMP, Column, Integer, String, JSON
+from sqlalchemy import JSON, TIMESTAMP, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 BaseModel = declarative_base()

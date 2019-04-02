@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 import yaml
@@ -25,11 +26,17 @@ class LogSetting:
         return(LogSetting._log_setting)
 
     def _load_log_yml(self):
-        with open(self.PIPELINE_YML_PATH, 'r') as stream:
-            pipeline_yml_data = yaml.load(stream)
+        if os.path.exists(self.PIPELINE_YML_PATH):
+            with open(self.PIPELINE_YML_PATH, 'r') as stream:
+                pipeline_yml_data = yaml.load(stream)
+        else:
+            pipeline_yml_data = {}
 
-        with open(self.TASK_NAME_PATH, 'r') as stream:
-            task_name = stream.read()
+        if os.path.exists(self.TASK_NAME_PATH):
+            with open(self.TASK_NAME_PATH, 'r') as stream:
+                task_name = stream.read()
+        else:
+            task_name = ''
 
         ret = {}
         ret['task_name'] = task_name
