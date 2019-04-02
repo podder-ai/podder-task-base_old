@@ -3,10 +3,20 @@ from pathlib import Path
 
 import yaml
 
+from podder_task_base import settings
+
 
 class LogSetting:
-    PIPELINE_YML_PATH = str(Path('config/pipeline.yml'))
-    TASK_NAME_PATH = 'task_name.ini'
+    if settings.get("PIPELINE_YML_PATH"):
+        PIPELINE_YML_PATH = settings.get("PIPELINE_YML_PATH")
+    else:
+        PIPELINE_YML_PATH = str(Path('config/pipeline.yml'))
+
+    if settings.get("PIPELINE_YML_PATH"):
+        TASK_NAME_PATH = settings.get("TASK_NAME_PATH")
+    else:
+        TASK_NAME_PATH = str(Path('task_name.ini'))
+    
     _log_setting = None
 
     def load(self):
