@@ -1,12 +1,11 @@
-import shutil
+import os
+from distutils.dir_util import copy_tree
 from pathlib import Path
 from stat import S_IRGRP, S_IROTH, S_IRWXU, S_IXGRP, S_IXOTH
 
 import click
 
-from podder_task_base.task_initializer.builders import (FilecopyBuilder,
-                                                        MkdirBuilder,
-                                                        TaskNameBuilder)
+from podder_task_base.task_initializer.builders import TaskNameBuilder
 
 
 class Builder(object):
@@ -17,12 +16,11 @@ class Builder(object):
         self.templates_dir = str(this_dir.joinpath("templates").resolve())
         self.target_dir = target_dir
         self.task_name = task_name
-        if Path(target_dir).exists():
-            shutil.rmtree(target_dir)
+        if not os.path.exists(target_dir):
+            os.mkdir(target_dir)
 
     def init_task(self) -> None:
-        shutil.copytree(self.templates_dir, self.target_dir,
-            ignore=shutil.ignore_patterns('__pycache__'))
+        copy_tree(self.templates_dir, self.target_dir)
 
         for path in Path(self.target_dir + "/scripts").glob("*.sh"):
             path.chmod(self.CHMOD755)
