@@ -1,9 +1,9 @@
 import os
 import shutil
 from stat import S_IRWXU, S_IRGRP, S_IXGRP, S_IROTH, S_IXOTH, filemode
-from unittest.mock import patch
 
 from podder_task_base.task_initializer.builders import FilecopyBuilder
+from podder_task_base.task_initializer import templates
 
 
 class TestFilecopyBuilder:
@@ -19,18 +19,14 @@ class TestFilecopyBuilder:
             shutil.rmtree(self.TARGET_DIR)
 
     def test_filecopy_builder_execute_option_none(self):
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        templates_dir = os.path.join(this_dir, "../../../../podder_task_base/task_initializer/templates")
-
+        templates_dir = os.path.dirname(templates.__file__)
         file = "__init__.py"
         option = None
         FilecopyBuilder(templates_dir).execute(self.TARGET_DIR, file, option)
         assert os.path.isfile(os.path.join(self.TARGET_DIR, file))
 
     def test_filecopy_builder_execute_option_755(self):
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        templates_dir = os.path.join(this_dir, "../../../../podder_task_base/task_initializer/templates")
-
+        templates_dir = os.path.dirname(templates.__file__)
         file = "__init__.py"
         option = self.CHMOD755
         FilecopyBuilder(templates_dir).execute(self.TARGET_DIR, file, option)
