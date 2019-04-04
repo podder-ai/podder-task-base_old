@@ -1,9 +1,8 @@
 import os
-from pathlib import Path
 import shutil
-from unittest.mock import patch
 
 from podder_task_base.task_initializer.builder import Builder
+from podder_task_base.task_initializer import templates
 
 
 class TestBuilder:
@@ -14,14 +13,10 @@ class TestBuilder:
         if os.path.exists(self.TEST_TMP_PATH):
             shutil.rmtree(self.TEST_TMP_PATH)
 
-
     def test_builder(self):
         Builder(self.TASK_NAME, self.TEST_TMP_PATH).init_task()
 
-        this_dir = Path(__file__).resolve().parent
-        templates_dir = str(this_dir.joinpath(
-            "../../podder_task_base/task_initializer/templates").resolve())
-
+        templates_dir = os.path.dirname(templates.__file__)
         base_set = set()
         for file in self._find_all_files(templates_dir):
             path = os.path.relpath(file, start=templates_dir)
