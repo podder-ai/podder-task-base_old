@@ -21,7 +21,7 @@ class TestTaskNameBuilder:
         os.mkdir(os.path.join(self.TARGET_DIR, 'api'))
 
         this_dir = os.path.dirname(os.path.abspath(__file__))
-        templates_dir = os.path.join(this_dir, "../../podder_task_base/task_initializer/templates")
+        templates_dir = os.path.join(this_dir, "../../../../podder_task_base/task_initializer/templates")
 
         file = "api/task_api.py"
         option = "test-sample-task"

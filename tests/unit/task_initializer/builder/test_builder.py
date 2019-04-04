@@ -20,7 +20,7 @@ class TestBuilder:
 
         this_dir = Path(__file__).resolve().parent
         templates_dir = str(this_dir.joinpath(
-            "../../podder_task_base/task_initializer/templates").resolve())
+            "../../../../podder_task_base/task_initializer/templates").resolve())
 
         base_set = set()
         for file in self._find_all_files(templates_dir):
