@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from click.testing import CliRunner
 from unittest.mock import patch
 
@@ -8,24 +11,35 @@ runner = CliRunner()
 
 
 BUILDER_MODULE = 'podder_task_base.task_initializer.builder.Builder'
+INSTALL_PODDER_LIB_MODULE = 'podder_task_base.task_initializer.install_podder_lib.InstallPodderLib'
 
+class TestMain():
+    TEST_TMP_PATH = "test_dir"
+    TEST_TASK_NAME = "sample-task"
 
-def test_main_task_initializer_init():
-    with patch(BUILDER_MODULE + '.__init__') as _mock_init:
-        _mock_init.return_value = None
-        with patch(BUILDER_MODULE + '.init_task') as _mock_init_task:
-            _mock_init_task.return_value = None
+    def teardown_method(self, _method):
+        if os.path.exists(self.TEST_TMP_PATH):
+            shutil.rmtree(self.TEST_TMP_PATH)
 
-            target_dir = "./test_dir"
-            task_name = "sample-task"
-            result = runner.invoke(__main__.init, [task_name, "--target-dir=%s"%target_dir])
+    def test_main_task_initializer_init(self):
+        with patch(INSTALL_PODDER_LIB_MODULE + '.__init__') as _mock_install_init:
+            _mock_install_init.return_value = None
+            with patch(INSTALL_PODDER_LIB_MODULE + '.execute') as _mock_install_execute:
+                _mock_install_execute.return_value = None
 
-            assert not result.exception
+                with patch(BUILDER_MODULE + '.__init__') as _mock_builder_init:
+                    _mock_builder_init.return_value = None
+                    with patch(BUILDER_MODULE + '.init_task') as _mock_builder_init_task:
+                        _mock_builder_init_task.return_value = None
 
-            assert _mock_init.call_count == 1
-            args, kwargs = _mock_init.call_args
-            assert args == (task_name, target_dir)
+                        target_dir = self.TEST_TMP_PATH
+                        task_name = self.TEST_TASK_NAME
+                        result = runner.invoke(__main__.init,
+                            [task_name, "--target-dir=%s"%target_dir])
 
-            assert _mock_init_task.call_count == 1
-            args, kwargs = _mock_init_task.call_args
-            assert args == ()
+                        assert not result.exception
+                        _mock_builder_init.assert_called_with(task_name, target_dir)
+                        _mock_builder_init_task.assert_called_with()
+
+                        _mock_install_init.assert_called_with()
+                        _mock_install_execute.assert_called_with()

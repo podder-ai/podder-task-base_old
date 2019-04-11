@@ -19,16 +19,20 @@ class InstallPodderLib(object):
         self._install_podder_lib(file_path)
 
     def _get_download_url(self) -> str:
+        click.echo("Downloading podder_lib url...")
         # [TODO] このurl設定部分は後からpodder-management-webからURLを取得する処理に差し替え
-        url = "https://podder-test.s3.amazonaws.com/podder_lib-0.0.3.20190411-050820-py3-none-any.whl?Signature=LAgdb8%2FAJKfbO3A5uUrgZEDxR6A%3D&Expires=1557551302&AWSAccessKeyId=AKIA5KIWQTAA4EISQU65"
-        return url
+        # api_request_url = "http://*****/****/***"
+        # request = requests.get(api_request_url, stream=True)
+        # download_url = request.text
+        download_url = "https://podder-lib-download.s3.amazonaws.com/podder_lib-0.0.3-py3-none-any.whl?AWSAccessKeyId=AKIAJ47ZKX5I34B7U42Q&Signature=1wTMJwmiV6y0GEmKiEcBkYDssCA%3D&Expires=1557567384"
+
+        return download_url
 
     def _download_from_s3(self, url: str) -> str:
         click.echo("Downloading the {}...".format(url))
         request = requests.get(url, stream=True)
 
         file_path = urlparse(url).path
-        print(file_path)
         extract_path = Path("/root/").resolve().joinpath(Path(file_path).name)
         with extract_path.open("wb") as f:
             f.write(request.content)
