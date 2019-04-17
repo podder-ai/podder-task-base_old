@@ -2,13 +2,13 @@ import os
 import shutil
 from unittest.mock import patch
 
-from podder_task_base.task_initializer.install_podder_lib import InstallPodderLib
+from podder_task_base.task_initializer.podder_lib_install import PodderLibInstall
 
 
-INSTALL_PODDER_LIB_MODULE = 'podder_task_base.task_initializer.install_podder_lib.InstallPodderLib'
+PODDER_LIB_INSTALL_MODULE = 'podder_task_base.task_initializer.podder_lib_install.PodderLibInstall'
 
 
-class TestInstallPodderLib:
+class TestPodderLibInstall:
     TEST_TMP_PATH = './tests/tmp_test_builder'
     TASK_NAME = 'test-sample-task'
 
@@ -16,14 +16,14 @@ class TestInstallPodderLib:
         if os.path.exists(self.TEST_TMP_PATH):
             shutil.rmtree(self.TEST_TMP_PATH)
 
-    def test_install_podder_lib(self):
-        with patch(INSTALL_PODDER_LIB_MODULE + '._get_download_url',
+    def test_podder_lib_install(self):
+        with patch(PODDER_LIB_INSTALL_MODULE + '._get_download_url',
                    return_value=None) as _mock_get_download_url:
-            with patch(INSTALL_PODDER_LIB_MODULE + '._download_from_s3',
+            with patch(PODDER_LIB_INSTALL_MODULE + '._download_from_s3',
                        return_value=None) as _mock_download_from_s3:
-                with patch(INSTALL_PODDER_LIB_MODULE + '._install_podder_lib',
+                with patch(PODDER_LIB_INSTALL_MODULE + '._install_podder_lib',
                            return_value=None) as _mock_install_podder_lib:
-                    InstallPodderLib().execute()
+                    PodderLibInstall().execute()
                     _mock_get_download_url.assert_called_with()
                     _mock_download_from_s3.assert_called_with(None)
                     _mock_install_podder_lib.assert_called_with(None)

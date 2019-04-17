@@ -11,7 +11,7 @@ runner = CliRunner()
 
 
 BUILDER_MODULE = 'podder_task_base.task_initializer.builder.Builder'
-INSTALL_PODDER_LIB_MODULE = 'podder_task_base.task_initializer.install_podder_lib.InstallPodderLib'
+PODDER_LIB_INSTALL_MODULE = 'podder_task_base.task_initializer.podder_lib_install.PodderLibInstall'
 
 class TestMain():
     TEST_TMP_PATH = "test_dir"
@@ -22,9 +22,9 @@ class TestMain():
             shutil.rmtree(self.TEST_TMP_PATH)
 
     def test_main_task_initializer_init(self):
-        with patch(INSTALL_PODDER_LIB_MODULE + '.__init__') as _mock_install_init:
+        with patch(PODDER_LIB_INSTALL_MODULE + '.__init__') as _mock_install_init:
             _mock_install_init.return_value = None
-            with patch(INSTALL_PODDER_LIB_MODULE + '.execute') as _mock_install_execute:
+            with patch(PODDER_LIB_INSTALL_MODULE + '.execute') as _mock_install_execute:
                 _mock_install_execute.return_value = None
 
                 with patch(BUILDER_MODULE + '.__init__') as _mock_builder_init:
