@@ -7,9 +7,10 @@ from urllib.parse import urlparse
 
 import click
 import requests
+import pip._internal
 
 
-class InstallPodderLib(object):
+class PodderLibInstall(object):
     def __init__(self) -> None:
         pass
 
@@ -24,12 +25,12 @@ class InstallPodderLib(object):
         # api_request_url = "http://*****/****/***"
         # request = requests.get(api_request_url, stream=True)
         # download_url = request.text
-        download_url = "https://podder-lib-download.s3.amazonaws.com/podder_lib-0.0.3-py3-none-any.whl?AWSAccessKeyId=AKIAJ47ZKX5I34B7U42Q&Signature=1wTMJwmiV6y0GEmKiEcBkYDssCA%3D&Expires=1557567384"
+        download_url = "https://podder-lib-download.s3.amazonaws.com/podder_lib-0.0.3-py3-none-any.whl?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3TKXHAVOFQ6RYZ6S%2F20190417%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20190417T074808Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=8106346113379603b63decece1a7b7efbaffd64bcbd457281e5808a71615f24e"
 
         return download_url
 
     def _download_from_s3(self, url: str) -> str:
-        click.echo("Downloading the {}...".format(url))
+        click.echo("Downloading the podder_lib...".format(url))
         request = requests.get(url, stream=True)
 
         file_path = urlparse(url).path
@@ -40,15 +41,8 @@ class InstallPodderLib(object):
         return str(extract_path)
 
     def _install_podder_lib(self, file_path: str) -> None:
-        click.echo("Installing podder-lib...")
+        click.echo("Uninstalling podder-lib (interface package)...")
+        pip._internal.main(['uninstall', 'podder-lib'])
 
-        command = ("pip3 install {}".format(file_path))
-        p_status = self._execute_call(command)
-        print(p_status)
-
-    def _execute_call(self, command: str):
-        click.echo(command)
-        command_list = command.split(" ")
-
-        p_status = subprocess.call(command_list)
-        return p_status
+        click.echo("Installing podder-lib (full package)...")
+        pip._internal.main(['install', file_path])
