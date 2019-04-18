@@ -30,7 +30,7 @@ class PodderLibInstall(object):
         return download_url
 
     def _download_from_s3(self, url: str) -> str:
-        click.echo("Downloading the podder_lib...".format(url))
+        click.echo("Downloading the podder_lib...")
         request = requests.get(url, stream=True)
 
         file_path = urlparse(url).path
