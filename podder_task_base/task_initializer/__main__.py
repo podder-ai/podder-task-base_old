@@ -5,6 +5,7 @@ import click
 
 from podder_task_base import __version__
 from podder_task_base.task_initializer.builder import Builder
+from podder_task_base.task_initializer.podder_lib_install import PodderLibInstall
 
 # CLI codes.
 # Add '-h' option
@@ -24,6 +25,7 @@ def task_initializer():
     default='/usr/local/poc_base',
     help="install directory")
 def init(task_name: str, target_dir: str):
+    PodderLibInstall().execute()
     Builder(task_name, target_dir).init_task()
 
 
