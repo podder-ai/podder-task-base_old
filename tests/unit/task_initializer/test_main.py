@@ -47,7 +47,7 @@ class TestMain():
                         _mock_install_init.assert_called_with(self.TEST_DOWNLOAD_URL)
                         _mock_install_execute.assert_called_with()
 
-    def test_main_task_initializer_init_environment_download_url(self):
+    def test_main_task_initializer_init_no_download_url(self):
         with patch(PODDER_LIB_INSTALL_MODULE + '.__init__') as _mock_install_init:
             _mock_install_init.return_value = None
             with patch(PODDER_LIB_INSTALL_MODULE + '.execute') as _mock_install_execute:
@@ -60,7 +60,6 @@ class TestMain():
 
                         target_dir = self.TEST_TMP_PATH
                         task_name = self.TEST_TASK_NAME
-                        os.environ["DOWNLOAD_URL"] = self.TEST_DOWNLOAD_URL
                         result = runner.invoke(__main__.init,
                             [task_name,
                              "--target-dir=%s"%target_dir])
@@ -71,5 +70,3 @@ class TestMain():
 
                         _mock_install_init.assert_called_with('')
                         _mock_install_execute.assert_called_with()
-
-                        os.environ.pop("DOWNLOAD_URL")

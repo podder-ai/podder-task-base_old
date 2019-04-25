@@ -12,16 +12,13 @@ import pip._internal
 
 class PodderLibInstall(object):
     def __init__(self, download_url:str) -> None:
-        if download_url == '':
-            download_url = os.environ.get('DOWNLOAD_URL')
-        if download_url == '' or download_url == None:
-            click.secho("Must set download_url!", fg='red')
-            raise ValueError
-
-        # download_url = "https://podder-downloads.s3.amazonaws.com/podder-lib/podder_lib-0.0.3-py3-none-any.whl?AWSAccessKeyId=AKIA3TKXHAVOFQ6RYZ6S&Signature=TkZkKt3vZOblQKUt8eIJ%2Bihb8I4%3D&Expires=1556280420"
         self.download_url = download_url
 
     def execute(self) -> None:
+        if self.download_url == "":
+            click.secho("not DOWNLOAD_URL. skip download.")
+            return
+
         file_path = self._download_from_s3(self.download_url)
         self._install_podder_lib(file_path)
 
