@@ -16,12 +16,13 @@ PODDER_LIB_INSTALL_MODULE = 'podder_task_base.task_initializer.podder_lib_instal
 class TestMain():
     TEST_TMP_PATH = "test_dir"
     TEST_TASK_NAME = "sample-task"
+    TEST_DOWNLOAD_URL = "http://test/test/test"
 
     def teardown_method(self, _method):
         if os.path.exists(self.TEST_TMP_PATH):
             shutil.rmtree(self.TEST_TMP_PATH)
 
-    def test_main_task_initializer_init(self):
+    def test_main_task_initializer_init_arg_download_url(self):
         with patch(PODDER_LIB_INSTALL_MODULE + '.__init__') as _mock_install_init:
             _mock_install_init.return_value = None
             with patch(PODDER_LIB_INSTALL_MODULE + '.execute') as _mock_install_execute:
@@ -34,12 +35,41 @@ class TestMain():
 
                         target_dir = self.TEST_TMP_PATH
                         task_name = self.TEST_TASK_NAME
+                        download_url = self.TEST_DOWNLOAD_URL
                         result = runner.invoke(__main__.init,
-                            [task_name, "--target-dir=%s"%target_dir])
+                            [task_name, "--download-url=%s"%download_url,
+                             "--target-dir=%s"%target_dir])
 
                         assert not result.exception
                         _mock_builder_init.assert_called_with(task_name, target_dir)
                         _mock_builder_init_task.assert_called_with()
 
-                        _mock_install_init.assert_called_with()
+                        _mock_install_init.assert_called_with(self.TEST_DOWNLOAD_URL)
                         _mock_install_execute.assert_called_with()
+
+    def test_main_task_initializer_init_environment_download_url(self):
+        with patch(PODDER_LIB_INSTALL_MODULE + '.__init__') as _mock_install_init:
+            _mock_install_init.return_value = None
+            with patch(PODDER_LIB_INSTALL_MODULE + '.execute') as _mock_install_execute:
+                _mock_install_execute.return_value = None
+
+                with patch(BUILDER_MODULE + '.__init__') as _mock_builder_init:
+                    _mock_builder_init.return_value = None
+                    with patch(BUILDER_MODULE + '.init_task') as _mock_builder_init_task:
+                        _mock_builder_init_task.return_value = None
+
+                        target_dir = self.TEST_TMP_PATH
+                        task_name = self.TEST_TASK_NAME
+                        os.environ["DOWNLOAD_URL"] = self.TEST_DOWNLOAD_URL
+                        result = runner.invoke(__main__.init,
+                            [task_name,
+                             "--target-dir=%s"%target_dir])
+
+                        assert not result.exception
+                        _mock_builder_init.assert_called_with(task_name, target_dir)
+                        _mock_builder_init_task.assert_called_with()
+
+                        _mock_install_init.assert_called_with('')
+                        _mock_install_execute.assert_called_with()
+
+                        os.environ.pop("DOWNLOAD_URL")

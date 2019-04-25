@@ -1,6 +1,8 @@
 """
 podder task base - task TaskInitializer
 """
+import os
+
 import click
 
 from podder_task_base import __version__
@@ -21,11 +23,14 @@ def task_initializer():
 # [python -m podder_task_base.task_initializer init] command
 @click.command()
 @click.argument('task-name')
-@click.option('--target-dir', '-t',
+@click.option('--download-url',
+    default='',
+    help="download url for podder-lib")
+@click.option('--target-dir',
     default='/usr/local/poc_base',
     help="install directory")
-def init(task_name: str, target_dir: str):
-    PodderLibInstall().execute()
+def init(task_name: str, download_url: str, target_dir: str):
+    PodderLibInstall(download_url).execute()
     Builder(task_name, target_dir).init_task()
 
 
