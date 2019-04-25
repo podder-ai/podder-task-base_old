@@ -1,8 +1,6 @@
 """
 podder task base - task TaskInitializer
 """
-import os
-
 import click
 
 from podder_task_base import __version__
