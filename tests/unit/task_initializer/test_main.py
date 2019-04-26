@@ -48,25 +48,15 @@ class TestMain():
                         _mock_install_execute.assert_called_with()
 
     def test_main_task_initializer_init_no_download_url(self):
-        with patch(PODDER_LIB_INSTALL_MODULE + '.__init__') as _mock_install_init:
-            _mock_install_init.return_value = None
-            with patch(PODDER_LIB_INSTALL_MODULE + '.execute') as _mock_install_execute:
-                _mock_install_execute.return_value = None
+        with patch(BUILDER_MODULE + '.__init__') as _mock_builder_init:
+            _mock_builder_init.return_value = None
+            with patch(BUILDER_MODULE + '.init_task') as _mock_builder_init_task:
+                _mock_builder_init_task.return_value = None
 
-                with patch(BUILDER_MODULE + '.__init__') as _mock_builder_init:
-                    _mock_builder_init.return_value = None
-                    with patch(BUILDER_MODULE + '.init_task') as _mock_builder_init_task:
-                        _mock_builder_init_task.return_value = None
+                target_dir = self.TEST_TMP_PATH
+                task_name = self.TEST_TASK_NAME
+                result = runner.invoke(__main__.init,
+                    [task_name, '--download-url=""',
+                     "--target-dir=%s"%target_dir])
 
-                        target_dir = self.TEST_TMP_PATH
-                        task_name = self.TEST_TASK_NAME
-                        result = runner.invoke(__main__.init,
-                            [task_name,
-                             "--target-dir=%s"%target_dir])
-
-                        assert not result.exception
-                        _mock_builder_init.assert_called_with(task_name, target_dir)
-                        _mock_builder_init_task.assert_called_with()
-
-                        _mock_install_init.assert_called_with('')
-                        _mock_install_execute.assert_called_with()
+                assert result.exception

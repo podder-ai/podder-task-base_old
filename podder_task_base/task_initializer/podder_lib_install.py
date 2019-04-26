@@ -9,6 +9,8 @@ import click
 import requests
 import pip._internal
 
+from podder_task_base.exceptions import DownloadUrlNotFoundError
+
 
 class PodderLibInstall(object):
     def __init__(self, download_url:str) -> None:
@@ -16,8 +18,8 @@ class PodderLibInstall(object):
 
     def execute(self) -> None:
         if self.download_url == "":
-            click.secho("not DOWNLOAD_URL. skip download.")
-            return
+            click.secho("not found DOWNLOAD_URL.", fg='red')
+            raise DownloadUrlNotFoundError
 
         file_path = self._download_from_s3(self.download_url)
         self._install_podder_lib(file_path)

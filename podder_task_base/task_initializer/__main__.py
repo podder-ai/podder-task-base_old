@@ -22,7 +22,7 @@ def task_initializer():
 @click.command()
 @click.argument('task-name')
 @click.option('--download-url',
-    default='',
+    required=True, 
     help="download url for podder-lib")
 @click.option('--target-dir',
     default='/usr/local/poc_base',
