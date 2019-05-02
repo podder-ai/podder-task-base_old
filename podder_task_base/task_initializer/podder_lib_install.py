@@ -37,4 +37,4 @@ class PodderLibInstall(object):
 
     def _install_podder_lib(self, file_path: str) -> None:
         click.echo("Installing podder-lib (full package)...")
-        pip._internal.main(['install', file_path])
+        pip._internal.main(['install', '-U', file_path])
