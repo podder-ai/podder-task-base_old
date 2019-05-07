@@ -36,8 +36,5 @@ class PodderLibInstall(object):
         return str(extract_path)
 
     def _install_podder_lib(self, file_path: str) -> None:
-        click.echo("Uninstalling podder-lib (interface package)...")
-        pip._internal.main(['uninstall', 'podder-lib', '-y'])
-
         click.echo("Installing podder-lib (full package)...")
-        pip._internal.main(['install', file_path])
+        pip._internal.main(['install', '-U', file_path])
