@@ -13,6 +13,10 @@ class BaseRepository(object):
     def session(self) -> Session:
         raise Exception('Not Implements of session. Please override.')
 
+    @property
+    def ro_session(self) -> Session:
+        raise Exception('Not Implements of ro_session. Please override.')
+
     def __init__(self, context: Context) -> None:
         self.context = context
 

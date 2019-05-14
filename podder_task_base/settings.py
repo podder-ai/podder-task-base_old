@@ -14,4 +14,5 @@ def get(key: str) -> Optional[str]:
 
 # Shortcut variables for Framework.
 PIPELINE_DATABASE_URL = get('PIPELINE_DATABASE_URL')
+PIPELINE_RO_DATABASE_URL = get('PIPELINE_RO_DATABASE_URL')
 GOOGLE_STORAGE_BUCKET = get('GOOGLE_STORAGE_BUCKET')
