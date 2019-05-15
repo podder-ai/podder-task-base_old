@@ -21,20 +21,12 @@ class JobRepository(BaseRepository):
         return self.context.ro_session
 
     def find_all(self) -> List[Any]:
-        if self.ro_session:
-            return self.ro_session.query(self.model_class).all()
-        return self.session.query(self.model_class).all()
+        return self.ro_session.query(self.model_class).all()
 
     def find_by_unique_key(self, job_id: str) -> JobModel:
-        if self.ro_session:
-            return self.ro_session.query(self.model_class).filter(
-                self.model_class.job_id == job_id).one_or_none()
-        return self.session.query(self.model_class).filter(
+        return self.ro_session.query(self.model_class).filter(
             self.model_class.job_id == job_id).one_or_none()
 
     def find_by_dag_id(self, dag_id: str) -> List[Any]:
-        if self.ro_session:
-            return self.ro_session.query(self.model_class).filter(
-                self.model_class.dag_id == dag_id)   
-        return self.session.query(self.model_class).filter(
+        return self.ro_session.query(self.model_class).filter(
             self.model_class.dag_id == dag_id)
