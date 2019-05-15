@@ -18,5 +18,6 @@ else:
 if PIPELINE_RO_DATABASE_URL:
     ro_engine: Engine = create_engine(PIPELINE_RO_DATABASE_URL, echo=False)
     ROSession: DeclarativeMeta = sessionmaker(bind=ro_engine)
+    SqlalchemyLoggerSetting()
 else:
     ROSession: DeclarativeMeta = None
