@@ -14,10 +14,10 @@ class Logger(object):
         self.setting = LogSetting().load()
         self.logger = logging.getLogger('podder.task')
         self.logger.propagate = False
-        format = self.setting["task_log_format"]
-        level = self.setting["task_log_level"]
-        self.logger.setLevel(level)
-        self._add_default_handler(format, level)
+        log_format = self.setting["task_log_format"]
+        log_level = self.setting["task_log_level"]
+        self.logger.setLevel(log_level)
+        self._add_default_handler(log_format, log_level)
 
     def init_tasktime(self):
         self.task_start_time = time.time()
