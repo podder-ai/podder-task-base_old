@@ -20,15 +20,13 @@ class TaskApiExecutor(object):
     def _convert_to_input_data(self, request):
         inputs = []
         for result in request.results:
-            inputs.append({
-                'job_id': result.job_id,
-                'job_data': json.loads(result.job_data)
-            })
+            inputs.append({'job_id': result.job_id, 'job_data': json.loads(result.job_data)})
         return inputs
 
     def _convert_to_task_response(self, dag_id: str, outputs):
         task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
         for output in outputs:
-            task_response.results.add(job_id=output['job_id'], job_data=json.dumps(output['job_data']))
+            task_response.results.add(job_id=output['job_id'],
+                                      job_data=json.dumps(output['job_data']))
         return task_response

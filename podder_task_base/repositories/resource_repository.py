@@ -1,9 +1,8 @@
 from typing import Any, List
 
-from sqlalchemy.orm.session import Session
-
 from podder_task_base.models.pipeline import ResourceModel
 from podder_task_base.repositories.base import BaseRepository
+from sqlalchemy.orm.session import Session
 
 
 class ResourceRepository(BaseRepository):
@@ -24,8 +23,8 @@ class ResourceRepository(BaseRepository):
         return self.read_only_session.query(self.model_class).all()
 
     def find_by_job_id(self, job_id: str) -> List[Any]:
-        return self.read_only_session.query(self.model_class).filter(
-            self.model_class.job_id == job_id)
+        return self.read_only_session.query(
+            self.model_class).filter(self.model_class.job_id == job_id)
 
     def find_by_unique_key(self, job_id: str, resource_id: str) -> ResourceModel:
         return self.read_only_session.query(self.model_class).filter(
