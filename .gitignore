@@ -24,3 +24,9 @@ README.rst
 # Editor
 .idea
 .vscode
+
+# PyEnv
+.python-version
+
+# OS Dependent files
+.DS_Store

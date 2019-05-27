@@ -1,5 +1,7 @@
-from podder_task_base.databases.pipeline import Session as PipelineSession
-from podder_task_base.databases.pipeline import ReadOnlySession as PipelineReadOnlySession
+from podder_task_base.databases.pipeline import (
+    ReadOnlySession as PipelineReadOnlySession,
+    Session as PipelineSession,
+)
 
 from .config import Config
 from .file import File

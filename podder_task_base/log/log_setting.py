@@ -13,7 +13,7 @@ class LogSetting:
     def load(self):
         if LogSetting._log_setting is None:
             LogSetting._log_setting = self._load_log_yml()
-        return(LogSetting._log_setting)
+        return (LogSetting._log_setting)
 
     def _load_log_yml(self):
         if os.path.exists(self.PIPELINE_YML_PATH):

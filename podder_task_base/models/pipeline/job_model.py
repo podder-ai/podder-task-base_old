@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 BaseModel = declarative_base()
 
+
 class JobModel(BaseModel):
     __tablename__ = 'jobs'
 
