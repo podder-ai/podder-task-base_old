@@ -1,8 +1,11 @@
 import json
+import traceback
 
 from podder_task_base import Context, settings
+from podder_task_base.log import logger
 
 
+@logger.class_logger
 class TaskApiExecutor(object):
     def __init__(self, execution_task, gprc_pb2):
         self.execution_task = execution_task
@@ -12,12 +15,29 @@ class TaskApiExecutor(object):
         settings.init()
         dag_id = request.dag_id
         context = Context(dag_id)
-        inputs = self._convert_to_input_data(request)
-        outputs = self.execution_task(context).execute(inputs)
-        task_response = self._convert_to_task_response(dag_id, outputs)
+
+        try:
+            inputs = self._convert_to_input_data(request)
+        except Exception:
+            self.logger.fatal(traceback.format_exc())
+            return self._make_error_task_response()
+
+        try:
+            outputs = self.execution_task(context).execute(inputs)
+        except Exception:
+            self.logger.error(traceback.format_exc())
+            return self._make_error_task_response()
+
+        try:
+            task_response = self._convert_to_task_response(dag_id, outputs)
+        except Exception:
+            self.logger.error(traceback.format_exc())
+            return self._make_error_task_response()
+
         return task_response
 
-    def _convert_to_input_data(self, request):
+    @staticmethod
+    def _convert_to_input_data(request):
         inputs = []
         for result in request.results:
             inputs.append({'job_id': result.job_id, 'job_data': json.loads(result.job_data)})
@@ -29,4 +49,9 @@ class TaskApiExecutor(object):
         for output in outputs:
             task_response.results.add(job_id=output['job_id'],
                                       job_data=json.dumps(output['job_data']))
+        return task_response
+
+    def _make_error_task_response(self):
+        task_response = self.gprc_pb2.TaskResponse()
+        task_response.dag_id = "ERROR_DAG_ID"
         return task_response

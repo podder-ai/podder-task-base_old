@@ -4,13 +4,13 @@ install_requires = ['grpcio-tools==1.18.0',
                     'googleapis-common-protos==1.5.6',
                     'python-daemon==2.2.0',
                     'mysqlclient==1.4.1',
-                    'SQLAlchemy==1.2.17',
+                    'SQLAlchemy==1.2.19',
                     'python-dotenv==0.10.1',
-                    'click==6.7',
+                    'Click==7.0',
                     'jinja2==2.10',
                     'PyYAML==5.1',
                     'pytest==4.3.1',
-                    'requests==2.21.0']
+                    'requests==2.22.0']
 
 setup(
     name='podder-task-base',

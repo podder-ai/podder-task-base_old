@@ -13,12 +13,12 @@ class LogSetting:
     def load(self):
         if LogSetting._log_setting is None:
             LogSetting._log_setting = self._load_log_yml()
-        return (LogSetting._log_setting)
+        return LogSetting._log_setting
 
     def _load_log_yml(self):
         if os.path.exists(self.PIPELINE_YML_PATH):
             with open(self.PIPELINE_YML_PATH, 'r') as stream:
-                pipeline_yml_data = yaml.load(stream)
+                pipeline_yml_data = yaml.safe_load(stream)
         else:
             pipeline_yml_data = {}
 
@@ -28,8 +28,7 @@ class LogSetting:
         else:
             task_name = ''
 
-        ret = {}
-        ret['task_name'] = task_name
+        ret = {'task_name': task_name}
         if pipeline_yml_data.get('task_log_format') is None:
             ret['task_log_format'] = "[%(asctime)s] %(levelname)s - %(message)s"
         else:
