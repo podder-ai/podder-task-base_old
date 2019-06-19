@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from podder_task_base import Context
 from podder_task_base.log import logger
@@ -18,7 +18,7 @@ class BaseTask(object):
         self.set_arguments()
         self.logger.init_tasktime()
 
-    def execute(self) -> Any:
+    def execute(self, inputs: List[Any]) -> List[Any]:
         pass
 
     def set_arguments(self) -> None:

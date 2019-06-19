@@ -42,10 +42,9 @@ class Logger(object):
 
     # private
     def _create_extra(self):
-        ex = {}
-        ex['progresstime'] = str(round((time.time() - self.start_time), 3))
-        ex['tasktime'] = str(round((time.time() - self.task_start_time), 3))
-        ex['taskname'] = str(self.setting["task_name"])
+        ex = {'progresstime': str(round((time.time() - self.start_time), 3)),
+              'tasktime': str(round((time.time() - self.task_start_time), 3)),
+              'taskname': str(self.setting["task_name"])}
         caller_info = sys._getframe(2)  # caller of 2 level depth
         module_info = inspect.getmodule(caller_info)
         script_info = inspect.getsourcelines(caller_info)[1]
@@ -55,10 +54,10 @@ class Logger(object):
         ex['time'] = now.strftime("%Y-%m-%d %H:%M:%S.") + "%06d" % now.microsecond
         return ex
 
-    def _add_default_handler(self, format, level):
+    def _add_default_handler(self, log_format, log_level):
         handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(level)
-        handler.setFormatter(logging.Formatter(fmt=format, datefmt='%Y-%m-%d %H:%M:%S'))
+        handler.setLevel(log_level)
+        handler.setFormatter(logging.Formatter(fmt=log_format, datefmt='%Y-%m-%d %H:%M:%S'))
         self.logger.addHandler(handler)
 
 
