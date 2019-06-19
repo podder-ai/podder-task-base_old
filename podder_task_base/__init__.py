@@ -5,5 +5,5 @@ from .context import Context
 
 __all__ = ['Context', 'Config']
 
-VERSION = (0, 2, 0)
+VERSION = (0, 3, 1)
 __version__ = get_version(VERSION)
