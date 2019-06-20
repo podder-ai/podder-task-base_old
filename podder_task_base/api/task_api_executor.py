@@ -18,17 +18,7 @@ class TaskApiExecutor(object):
 
         try:
             inputs = self._convert_to_input_data(request)
-        except Exception:
-            self.logger.fatal(traceback.format_exc())
-            return self._make_error_task_response()
-
-        try:
             outputs = self.execution_task(context).execute(inputs)
-        except Exception:
-            self.logger.error(traceback.format_exc())
-            return self._make_error_task_response()
-
-        try:
             task_response = self._convert_to_task_response(dag_id, outputs)
         except Exception:
             self.logger.error(traceback.format_exc())

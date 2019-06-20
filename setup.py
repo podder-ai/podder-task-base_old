@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+from podder_task_base import __version__
+
 install_requires = ['grpcio-tools==1.18.0',
                     'googleapis-common-protos==1.5.6',
                     'python-daemon==2.2.0',
@@ -14,7 +16,7 @@ install_requires = ['grpcio-tools==1.18.0',
 
 setup(
     name='podder-task-base',
-    version='0.3.1',
+    version=__version__,
     packages=find_packages(),
     author="podder-ai",
     url='https://github.com/podder-ai/podder-task-base',
