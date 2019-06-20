@@ -22,6 +22,9 @@ class Logger(object):
     def init_tasktime(self):
         self.task_start_time = time.time()
 
+    def fatal(self, msg, *args, **kwargs):
+        self.logger.critical(msg, extra=self._create_extra(), *args, **kwargs)
+
     def critical(self, msg, *args, **kwargs):
         self.logger.critical(msg, extra=self._create_extra(), *args, **kwargs)
 
@@ -39,6 +42,9 @@ class Logger(object):
 
     def debug(self, msg, *args, **kwargs):
         self.logger.debug(msg, extra=self._create_extra(), *args, **kwargs)
+
+    def trace(self, msg, *args, **kwargs):
+        self.logger.log(logging.NOTSET, msg, extra=self._create_extra(), *args, **kwargs)
 
     # private
     def _create_extra(self):
