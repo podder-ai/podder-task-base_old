@@ -22,7 +22,7 @@ class TaskApiExecutor(object):
             task_response = self._convert_to_task_response(dag_id, outputs)
         except Exception:
             self.logger.error(traceback.format_exc())
-            return self._make_error_task_response()
+            return self._make_error_task_response(dag_id)
 
         return task_response
 
@@ -41,7 +41,7 @@ class TaskApiExecutor(object):
                                       job_data=json.dumps(output['job_data']))
         return task_response
 
-    def _make_error_task_response(self):
+    def _make_error_task_response(self, dag_id):
         task_response = self.gprc_pb2.TaskResponse()
-        task_response.dag_id = "ERROR_DAG_ID"
+        task_response.dag_id = dag_id
         return task_response
