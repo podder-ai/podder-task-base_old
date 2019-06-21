@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 from podder_task_base import __version__
 
-with open('requirements.txt') as fp:
-    install_requires = fp.read()
+with open('requirements.txt') as file:
+    install_requires = file.read()
 
 setup(
     name='podder-task-base',
