@@ -2,17 +2,8 @@ from setuptools import setup, find_packages
 
 from podder_task_base import __version__
 
-install_requires = ['grpcio-tools==1.18.0',
-                    'googleapis-common-protos==1.5.6',
-                    'python-daemon==2.2.0',
-                    'mysqlclient==1.4.1',
-                    'SQLAlchemy==1.3.3',
-                    'python-dotenv==0.10.1',
-                    'click==6.7',
-                    'jinja2==2.10.1',
-                    'PyYAML==5.1',
-                    'pytest==4.3.1',
-                    'requests==2.22.0']
+with open('requirements.txt') as fp:
+    install_requires = fp.read()
 
 setup(
     name='podder-task-base',
