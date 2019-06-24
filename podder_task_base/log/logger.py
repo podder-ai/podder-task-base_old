@@ -23,19 +23,14 @@ class Logger(object):
         self.task_start_time = time.time()
 
     def fatal(self, msg, *args, **kwargs):
-        # fatal is CRITICAL alias
-        self.logger.critical(msg, extra=self._create_extra(), *args, **kwargs)
-
-    def critical(self, msg, *args, **kwargs):
+        # fatal -> critical(python logger)
         self.logger.critical(msg, extra=self._create_extra(), *args, **kwargs)
 
     def error(self, msg, *args, **kwargs):
         self.logger.error(msg, extra=self._create_extra(), *args, **kwargs)
 
-    def warning(self, msg, *args, **kwargs):
-        self.logger.warning(msg, extra=self._create_extra(), *args, **kwargs)
-
     def warn(self, msg, *args, **kwargs):
+        # warn -> warning(python logger)
         self.logger.warning(msg, extra=self._create_extra(), *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
@@ -45,7 +40,7 @@ class Logger(object):
         self.logger.debug(msg, extra=self._create_extra(), *args, **kwargs)
 
     def trace(self, msg, *args, **kwargs):
-        # trace is NOTSET alias
+        # trace -> notset(python logger)
         self.logger.log(logging.NOTSET, msg, extra=self._create_extra(), *args, **kwargs)
 
     # private
