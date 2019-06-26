@@ -1,7 +1,7 @@
-from typing import Tuple
 import json
 import traceback
 from pathlib import Path
+from typing import Tuple, Iterator, Any
 
 from podder_task_base import Context, settings
 from podder_task_base.log import logger
@@ -13,7 +13,7 @@ class TaskApiExecutor(object):
         self.execution_task = execution_task
         self.gprc_pb2 = gprc_pb2
 
-    def execute(self, request, _context):
+    def execute(self, request: Any, _context: Any):
         settings.init()
         dag_id = request.dag_id
         context = Context(dag_id)
@@ -31,9 +31,10 @@ class TaskApiExecutor(object):
         return task_response
 
     @staticmethod
-    def _parse_request_and_load_arg_file(request) -> Tuple[list, str]:
+    def _parse_request_and_load_arg_file(request: Any) -> Tuple[list, str, str]:
         inputs = []
-        job_id = None
+        job_id = ""
+        task_name = ""
         for result in request.results:
             job_id = result.job_id
             job_data = json.loads(result.job_data)
@@ -46,11 +47,8 @@ class TaskApiExecutor(object):
             inputs.append({'job_id': job_id, 'job_data': arg_data})
         return inputs, job_id, task_name
 
-    def _generate_arg_file_and_convert_to_task_response(self,
-                                                        dag_id: str,
-                                                        job_id: str,
-                                                        task_name: str,
-                                                        outputs):
+    def _generate_arg_file_and_convert_to_task_response(self, dag_id: str, job_id: str,
+                                                        task_name: str, outputs: Iterator[Any]):
         task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
         for i, output in enumerate(outputs):
@@ -59,11 +57,13 @@ class TaskApiExecutor(object):
             with arg_file.open('w') as file:
                 file.write(json.dumps(output['job_data']))
 
-            task_response.results.add(job_id=output['job_id'],
-                                      job_data=json.dumps({'arg_file': str(arg_file)}))
+            task_response.results.add(
+                job_id=output['job_id'], job_data=json.dumps({
+                    'arg_file': str(arg_file)
+                }))
         return task_response
 
-    def _make_error_task_response(self, dag_id):
+    def _make_error_task_response(self, dag_id: str):
         task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
         return task_response
