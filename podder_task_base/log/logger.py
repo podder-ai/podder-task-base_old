@@ -43,6 +43,9 @@ class Logger(object):
         # trace -> notset(python logger)
         self.logger.log(logging.NOTSET, msg, extra=self._create_extra(), *args, **kwargs)
 
+    def log(self, msg, *args, **kwargs):
+        self.logger.log(msg, extra=self._create_extra(), *args, **kwargs)
+
     # private
     def _create_extra(self):
         ex = {'progresstime': str(round((time.time() - self.start_time), 3)),
