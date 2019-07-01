@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
-from podder_task_base import __version__
+from podder_task_base import __version__ as version
 
 with open('requirements.txt') as file:
     install_requires = file.read()
 
 setup(
     name='podder-task-base',
-    version=__version__,
+    version=version,
     packages=find_packages(),
     author="podder-ai",
     url='https://github.com/podder-ai/podder-task-base',
