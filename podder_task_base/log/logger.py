@@ -72,7 +72,7 @@ class Logger(object):
         if old_character in message:
             return message.replace(old_character, new_character)
         else:
-            return meddage
+            return message
 
 
 def class_logger(cls):
