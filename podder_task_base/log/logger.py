@@ -24,27 +24,27 @@ class Logger(object):
 
     def fatal(self, msg, *args, **kwargs):
         # fatal -> critical(python logger)
-        self.logger.critical(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.critical(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def error(self, msg, *args, **kwargs):
-        self.logger.error(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.error(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def warn(self, msg, *args, **kwargs):
         # warn -> warning(python logger)
-        self.logger.warning(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.warning(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self.logger.info(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.info(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def debug(self, msg, *args, **kwargs):
-        self.logger.debug(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.debug(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def trace(self, msg, *args, **kwargs):
         # trace -> notset(python logger)
-        self.logger.log(logging.NOTSET, msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.log(logging.NOTSET, self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     def log(self, msg, *args, **kwargs):
-        self.logger.log(msg, extra=self._create_extra(), *args, **kwargs)
+        self.logger.log(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
 
     # private
     def _create_extra(self):
@@ -65,6 +65,14 @@ class Logger(object):
         handler.setLevel(log_level)
         handler.setFormatter(logging.Formatter(fmt=log_format, datefmt='%Y-%m-%d %H:%M:%S'))
         self.logger.addHandler(handler)
+
+    def _convert_newline_character(self, message):
+        old_character =  '\n'
+        new_character = '\\n'
+        if old_character in message:
+            return message.replace(old_character, new_character)
+        else:
+            return meddage
 
 
 def class_logger(cls):
