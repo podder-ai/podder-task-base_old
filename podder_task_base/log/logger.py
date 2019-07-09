@@ -24,27 +24,27 @@ class Logger(object):
 
     def fatal(self, msg, *args, **kwargs):
         # fatal -> critical(python logger)
-        self.logger.critical(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.CRITICAL, msg, *args, **kwargs)
 
     def error(self, msg, *args, **kwargs):
-        self.logger.error(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.ERROR, msg, *args, **kwargs)
 
     def warn(self, msg, *args, **kwargs):
         # warn -> warning(python logger)
-        self.logger.warning(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.WARNING, msg, *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self.logger.info(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.INFO, msg, *args, **kwargs)
 
     def debug(self, msg, *args, **kwargs):
-        self.logger.debug(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.DEBUG, msg, *args, **kwargs)
 
     def trace(self, msg, *args, **kwargs):
         # trace -> notset(python logger)
-        self.logger.log(logging.NOTSET, self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.NOTSET, msg, *args, **kwargs)
 
     def log(self, msg, *args, **kwargs):
-        self.logger.log(self._convert_newline_character(msg), extra=self._create_extra(), *args, **kwargs)
+        self._log(logging.NOTSET, msg, *args, **kwargs)
 
     # private
     def _create_extra(self):
@@ -66,13 +66,18 @@ class Logger(object):
         handler.setFormatter(logging.Formatter(fmt=log_format, datefmt='%Y-%m-%d %H:%M:%S'))
         self.logger.addHandler(handler)
 
-    def _convert_newline_character(self, message):
+    def _convert_newline_character(self, msg):
         old_character =  '\n'
         new_character = '\\n'
-        if old_character in message:
-            return message.replace(old_character, new_character)
+        if old_character in msg:
+            return msg.replace(old_character, new_character)
         else:
-            return message
+            return msg
+
+    def _log(self, lvl, msg, *args, **kwargs):
+        self.logger.setLevel(lvl)
+        self.logger.log(lvl, self._convert_newline_character(msg),  extra=self._create_extra(), *args, **kwargs)
+
 
 
 def class_logger(cls):
