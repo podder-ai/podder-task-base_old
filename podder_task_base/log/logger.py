@@ -72,9 +72,7 @@ class Logger(object):
         return msg.replace(old_character, new_character)
 
     def _format(self, lvl, msg, *args, **kwargs):
-        self.logger.setLevel(lvl)
         self.logger.log(lvl, self._convert_newline_character(msg),  extra=self._create_extra(), *args, **kwargs)
-
 
 
 def class_logger(cls):
