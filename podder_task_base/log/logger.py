@@ -8,6 +8,8 @@ from .log_setting import LogSetting
 
 
 class Logger(object):
+    TRECE_LOG_LEVEL = 5
+    
     def __init__(self):
         self.start_time = time.time()
         self.task_start_time = time.time()
@@ -18,6 +20,7 @@ class Logger(object):
         log_level = self.setting["task_log_level"]
         self.logger.setLevel(log_level)
         self._add_default_handler(log_format, log_level)
+        logging.addLevelName(self.TRECE_LOG_LEVEL, "TRACE")
 
     def init_tasktime(self):
         self.task_start_time = time.time()
@@ -40,8 +43,7 @@ class Logger(object):
         self._format(logging.DEBUG, msg, *args, **kwargs)
 
     def trace(self, msg, *args, **kwargs):
-        # trace -> notset(python logger)
-        self._format(logging.NOTSET, msg, *args, **kwargs)
+        self._format(self.TRECE_LOG_LEVEL, msg, *args, **kwargs)
 
     def log(self, msg, *args, **kwargs):
         self._format(logging.NOTSET, msg, *args, **kwargs)

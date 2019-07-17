@@ -1,7 +1,14 @@
 from podder_task_base.log.logger import Logger
+from podder_task_base.log.log_setting import LogSetting
 
 class TestLogger:
-
+    TRACE_LOG_LEVEL = 5
+    
+    def setup_method(self, _method):
+        setting = LogSetting().load()
+        self.log_format = setting["task_log_format"]
+        self.logger = Logger()
+        
     def test_convert_newline_character_without_newline(self):
         message = Logger()._convert_newline_character("log message")
         assert message == "log message"
@@ -40,10 +47,10 @@ class TestLogger:
         assert "debug log" in stdout
         assert "DEBUG" in stdout
 
-    def test_trace(self):
-        Logger().trace("trace log")
-        pass
-
-    def test_log(self, capsys):
-        Logger().log("log")
-        pass
+    def test_trace(self, capsys):
+        self.logger.logger.setLevel(self.TRACE_LOG_LEVEL)
+        self.logger._add_default_handler(self.log_format, self.TRACE_LOG_LEVEL)
+        self.logger.trace("trace log")
+        stdout, stderr = capsys.readouterr()
+        assert "trace log" in stdout
+        assert "TRACE" in stdout
