@@ -45,8 +45,8 @@ class Logger(object):
     def trace(self, msg, *args, **kwargs):
         self._format(self.TRECE_LOG_LEVEL, msg, *args, **kwargs)
 
-    def log(self, msg, *args, **kwargs):
-        self._format(logging.NOTSET, msg, *args, **kwargs)
+    def customize_log(self, lvl, msg, *args, **kwargs):
+        self._format(lvl, msg, *args, **kwargs)
 
     # private
     def _create_extra(self):

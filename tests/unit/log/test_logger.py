@@ -54,3 +54,16 @@ class TestLogger:
         stdout, stderr = capsys.readouterr()
         assert "trace log" in stdout
         assert "TRACE" in stdout
+
+    def test_customize_log(self, capsys):
+        log_level_1 = 1
+        self.logger.logger.setLevel(log_level_1)
+        self.logger._add_default_handler(self.log_format, log_level_1)
+        self.logger.customize_log(log_level_1, "customize log")
+        stdout, stderr = capsys.readouterr()
+        assert "customize log" in stdout
+        assert "Level 1" in stdout
+        log_level_51 = 51
+        self.logger.customize_log(log_level_51, "customize log")
+        stdout, stderr = capsys.readouterr()
+        assert "Level 51" in stdout
