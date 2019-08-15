@@ -1,0 +1,64 @@
+========================================================================
+PODDER-TASK-BASE SUBCOMPONENTS:
+
+The podder-task-base project contains subcomponents with separate copyright notices
+and license terms. Your use of the source code for the these subcomponents is
+subject to the terms and conditions of the following licenses.
+
+
+========================================================================
+GNU General Public License v2.0 licenses
+========================================================================
+
+The following components are provided under the GNU General Public License v2.0 licenses.
+See project link for details. The text of each license is also included at
+licenses/LICENSE-[project].txt.
+
+    (GNU General Public License) mysqlclient v1.4.1 (https://github.com/PyMySQL/mysqlclient-python)
+
+
+========================================================================
+BSD 3-Clause licenses
+========================================================================
+
+The following components are provided under the BSD 3-Clause licenses.
+See project link for details. The text of each license is also included at
+licenses/LICENSE-[project].txt.
+
+    (BSD 3 License) Click v7 (https://palletsprojects.com/p/click/)
+    (BSD 3 License) Jinja2 v2.10.1 (http://jinja.pocoo.org/)
+    (BSD 3 License) python-dotenv v0.10.1 (http://github.com/theskumar/python-dotenv)
+
+
+========================================================================
+Apache 2.0 licenses
+========================================================================
+
+The following components are provided under the Apache 2.0 licenses.
+See project link for details. The text of each license is also included at
+licenses/LICENSE-[project].txt.
+
+    (Apache License 2.0) googleapis-common-protos v1.5.6 (https://github.com/googleapis/googleapis)
+    (Apache License 2.0) grpcio-tools v1.18.0 (https://grpc.io)
+    (Apache License 2.0) python-daemon v2.2.0 (https://pagure.io/python-daemon/)
+    (Apache License 2.0) requests v2.22.0 (http://python-requests.org)
+    (Apache License 2.0) yapf v0.28.0 (https://github.com/google/yapf)
+
+
+========================================================================
+MIT licenses
+========================================================================
+
+The following components are provided under the MIT licenses.
+See project link for details. The text of each license is also included at
+licenses/LICENSE-[project].txt.
+
+    (MIT License) PyYAML v5.1 (https://github.com/yaml/pyyaml)
+    (MIT License) SQLAlchemy v1.3.3 (http://www.sqlalchemy.org)
+    (MIT License) autoflake v1.3.1 (https://github.com/myint/autoflake)
+    (MIT License) autopep8 v1.4.4 (https://github.com/hhatto/autopep8)
+    (MIT License) flake8 v3.7.8 (https://gitlab.com/pycqa/flake8)
+    (MIT License) isort v4.3.21 (https://github.com/timothycrosley/isort)
+    (MIT License) pytest v4.3.1 (https://docs.pytest.org/en/latest/)
+
+
