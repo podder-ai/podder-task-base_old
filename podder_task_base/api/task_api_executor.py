@@ -3,8 +3,8 @@ import traceback
 from pathlib import Path
 from typing import Tuple, Iterator, Any
 
-from podder_task_base import Context, settings
-from podder_task_base.log import logger
+from podder_lib import Context, settings
+from podder_lib.log import logger
 
 
 @logger.class_logger
