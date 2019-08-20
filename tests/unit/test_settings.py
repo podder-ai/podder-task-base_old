@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from podder_task_base.settings import get, init
+from podder_lib.settings import get, init
 
 
 class TestSettings:
