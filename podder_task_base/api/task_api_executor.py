@@ -1,7 +1,6 @@
 import json
 import traceback
-from pathlib import Path
-from typing import Tuple, Iterator, Any
+from typing import Any
 
 from podder_task_base import Context, settings
 from podder_task_base.log import logger
@@ -19,11 +18,9 @@ class TaskApiExecutor(object):
         context = Context(dag_id)
 
         try:
-            inputs, job_id, task_name = self._parse_request_and_load_arg_file(request)
+            inputs = self._convert_to_input_data(request)
             outputs = self.execution_task(context).execute(inputs)
-            task_response = self._generate_arg_file_and_convert_to_task_response(
-                dag_id, job_id, task_name, outputs)
-
+            task_response = self._convert_to_task_response(dag_id, outputs)
         except Exception:
             self.logger.error(traceback.format_exc())
             return self._make_error_task_response(dag_id)
@@ -31,36 +28,19 @@ class TaskApiExecutor(object):
         return task_response
 
     @staticmethod
-    def _parse_request_and_load_arg_file(request: Any) -> Tuple[list, str, str]:
+    def _convert_to_input_data(request: dict) -> list:
         inputs = []
-        job_id = ""
-        task_name = ""
         for result in request.results:
-            job_id = result.job_id
-            job_data = json.loads(result.job_data)
-            task_name = job_data['task_name']
+            inputs.append({'job_id': result.job_id, 'job_data': json.loads(result.job_data)})
+        return inputs
 
-            arg_file = Path(job_data['arg_file'])
-            with arg_file.open() as file:
-                arg_data = json.loads(file.read())
-
-            inputs.append({'job_id': job_id, 'job_data': arg_data})
-        return inputs, job_id, task_name
-
-    def _generate_arg_file_and_convert_to_task_response(self, dag_id: str, job_id: str,
-                                                        task_name: str, outputs: Iterator[Any]):
+    def _convert_to_task_response(self, dag_id: str, outputs) -> Any:
         task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
-        for i, output in enumerate(outputs):
-            arg_file = Path('/usr/local/poc_base/tmp/{}/{}/arg/{}_{}.json'.format(
-                dag_id, job_id, task_name, i))
-            with arg_file.open('w') as file:
-                file.write(json.dumps(output['job_data']))
 
-            task_response.results.add(
-                job_id=output['job_id'], job_data=json.dumps({
-                    'arg_file': str(arg_file)
-                }))
+        for output in outputs:
+            task_response.results.add(job_id=output['job_id'],
+                                      job_data=json.dumps(output['job_data']))
         return task_response
 
     def _make_error_task_response(self, dag_id: str):
