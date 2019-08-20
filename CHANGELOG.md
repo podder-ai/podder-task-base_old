@@ -7,4 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Add
 - Add CHANGELOG.md file.
 
+### Changes
+- [PA-1399] Fix dependency of libraries
+
 [Unreleased]: https://github.com/podder-ai/podder-task-base/compare/b07316c...HEAD
