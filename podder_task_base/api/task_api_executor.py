@@ -34,7 +34,7 @@ class TaskApiExecutor(object):
             inputs.append({'job_id': result.job_id, 'job_data': json.loads(result.job_data)})
         return inputs
 
-    def _convert_to_task_response(self, dag_id: str, outputs) -> Any:
+    def _convert_to_task_response(self, dag_id: str, outputs: list) -> Any:
         task_response = self.gprc_pb2.TaskResponse()
         task_response.dag_id = dag_id
 
