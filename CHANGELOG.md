@@ -9,5 +9,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changes
 - [PA-1399] Fix dependency of libraries
+- [PA-1153] Change library, mysqlclient to PyMySQL
 
 [Unreleased]: https://github.com/podder-ai/podder-task-base/compare/b07316c...HEAD
