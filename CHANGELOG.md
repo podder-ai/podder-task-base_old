@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
-## [0.5.2]
+## [0.6.0]
 ### Add
 - Add CHANGELOG.md file.
 
