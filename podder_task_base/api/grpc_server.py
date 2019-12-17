@@ -1,6 +1,6 @@
 import time
 from concurrent import futures
-from typing import Any
+from typing import Any, Optional
 
 import daemon
 import grpc
@@ -11,12 +11,14 @@ class GrpcServer(object):
     _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
     def __init__(self, stdout_file: str, stderr_file: str, pidfile_path: str, execution_task: Any,
-                 max_workers: int, port: int, add_servicer_method: Any, task_api_class: Any):
+                 max_workers: int, max_rpcs_requests: Optional[str],
+                 port: int, add_servicer_method: Any, task_api_class: Any):
         self.stdout_file = stdout_file
         self.stderr_file = stderr_file
         self.pidfile_path = pidfile_path
         self.execution_task = execution_task
         self.max_workers = max_workers
+        self.max_rpcs_requests = max_rpcs_requests
         self.port = port
         self.add_servicer_to_server = add_servicer_method
         self.task_api_class = task_api_class
@@ -33,8 +35,11 @@ class GrpcServer(object):
             self.serve()
 
     def serve(self):
-        max_rpcs_request = int(self.max_workers)
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(self.max_workers)), maximum_concurrent_rpcs=max_rpcs_request)
+        if self.max_rpcs_requests:
+            max_requests = int(self.max_rpcs_requests)
+        else:
+            max_requests = None
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(self.max_workers)), maximum_concurrent_rpcs=max_requests)
         self.add_servicer_to_server(self.task_api_class(self.execution_task), server)
         server.add_insecure_port('[::]:' + str(self.port))
 
