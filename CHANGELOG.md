@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.6.1]
+### Add
+- [PA-2488] Add handling of exception which occurred on task
+
 ## [0.6.0]
 ### Add
 - Add CHANGELOG.md file.
