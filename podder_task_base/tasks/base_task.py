@@ -8,6 +8,8 @@ DATA_PATH = "data/"
 
 @logger.class_logger
 class BaseTask(object):
+    ERROR_CODE_INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR'
+    TASK_NAME = ''
     """
     Abstract task class.
     Please add your concrete code to concrete task class: `app/task.py`.

@@ -17,13 +17,15 @@ class TaskApiExecutor(object):
         dag_id = request.dag_id
         context = Context(dag_id)
 
+        inputs = []
         try:
             inputs = self._convert_to_input_data(request)
             outputs = self.execution_task(context).execute(inputs)
             task_response = self._convert_to_task_response(dag_id, outputs)
-        except Exception:
+        except Exception as e:
             self.logger.error(traceback.format_exc())
-            return self._make_error_task_response(dag_id)
+            outputs = self._add_error_to_outputs(inputs, e)
+            task_response = self._convert_to_task_response(dag_id, outputs)
 
         return task_response
 
@@ -43,7 +45,17 @@ class TaskApiExecutor(object):
                                       job_data=json.dumps(output['job_data']))
         return task_response
 
-    def _make_error_task_response(self, dag_id: str):
-        task_response = self.gprc_pb2.TaskResponse()
-        task_response.dag_id = dag_id
-        return task_response
+    def _add_error_to_outputs(self, outputs: list, error: Exception) -> list:
+        error_params = {
+            'has_error': True,
+            'error_at': self.execution_task.TASK_NAME,
+            'error_code': self.execution_task.ERROR_CODE_INTERNAL_SERVER_ERROR,
+            'error_class': type(error).__name__,
+            'error_message': str(error)
+        }
+        for output in outputs:
+            output['job_data']['params']['metadata'] = {
+                **output['job_data']['params'].get('metadata', {}),
+                **error_params
+            }
+        return outputs
