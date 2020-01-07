@@ -21,7 +21,7 @@ class GrpcServer(object):
         max_requests = int(self.max_rpcs_requests) if self.max_rpcs_requests else None
 
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(self.max_workers)),
-                                                        maximum_concurrent_rpcs=max_requests)
+                             maximum_concurrent_rpcs=max_requests)
         self.add_servicer_to_server(self.task_api_class(self.execution_task), server)
         server.add_insecure_port('[::]:' + str(self.port))
 
