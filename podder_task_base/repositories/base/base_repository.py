@@ -20,24 +20,43 @@ class BaseRepository(object):
         self.context = context
 
     def all(self) -> List[DeclarativeMeta]:
-        return self.read_only_session.query(self.model_class).all()
+        objects = self.read_only_session.query(self.model_class).all()
+        self.session.commit()
+        return objects
 
     def create(self, fields: Dict) -> DeclarativeMeta:
-        model = self.model_class(**fields)
-        model = self.session.merge(model)
-        self.session.add(model)
+        try:
+            model = self.model_class(**fields)
+            model = self.session.merge(model)
+            self.session.add(model)
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
         return model
 
     def update(self, model: DeclarativeMeta, fields: Dict) -> DeclarativeMeta:
-        for key in fields:
-            setattr(model, key, fields[key])
-        model = self.session.merge(model)
-        self.session.add(model)
+        try:
+            for key in fields:
+                setattr(model, key, fields[key])
+            model = self.session.merge(model)
+            self.session.add(model)
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
         return model
 
     def delete(self, model: DeclarativeMeta) -> None:
-        model = self.session.merge(model)
-        self.session.delete(model)
+        try:
+            model = self.session.merge(model)
+            self.session.delete(model)
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
 
     def find(self, primary_id: int) -> DeclarativeMeta:
         return self.read_only_session.query(
