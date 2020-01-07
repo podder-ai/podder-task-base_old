@@ -1,4 +1,5 @@
 import time
+import signal
 from concurrent import futures
 from typing import Any, Optional
 import grpc
@@ -29,6 +30,12 @@ class GrpcServer(object):
 
         print("[{}] gRPC server is listening to port: '[::]:{}'".format(
             time.strftime("%Y-%m-%d %H:%m:%S"), self.port))
+
+        # stop gRPC server when SIGTERM signal received
+        def sigterm_handler(signum, frame):
+            server.stop(0)
+        signal.signal(signal.SIGTERM, sigterm_handler)
+
         try:
             server.wait_for_termination()
         except KeyboardInterrupt:
