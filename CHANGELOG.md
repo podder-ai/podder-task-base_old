@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [0.7.1]
-### Add
+### Fix
 - [PA-2501] Fix base repository to ensure commit and rollback for database
 
 ## [0.7.0]
