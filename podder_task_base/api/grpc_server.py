@@ -33,11 +33,14 @@ class GrpcServer(object):
 
         # stop gRPC server when SIGTERM signal received
         def sigterm_handler(signum, frame):
+            print("SIGTERM received.")
             server.stop(0)
         signal.signal(signal.SIGTERM, sigterm_handler)
 
         try:
             server.wait_for_termination()
         except KeyboardInterrupt:
+            print("SIGINT received.")
             server.stop(0)
 
+        print("stopped gRPC server.")
