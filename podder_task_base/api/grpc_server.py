@@ -32,5 +32,5 @@ class GrpcServer(object):
         try:
             server.wait_for_termination()
         except KeyboardInterrupt:
-            pass
-        server.stop(0)
+            server.stop(0)
+
