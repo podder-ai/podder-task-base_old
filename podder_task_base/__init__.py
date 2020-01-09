@@ -4,4 +4,4 @@ from .context import Context
 __all__ = ['Context', 'Config']
 
 # Version of podder-task-base
-__version__ = '0.7.1'
+__version__ = '0.8.0'
