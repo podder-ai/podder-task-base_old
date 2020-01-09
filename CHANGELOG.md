@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [0.8.0]
+### Changes
+- [PA-2498] Change to stop grpc_server.py when SIGTERM signal received.
+
 ## [0.7.1]
 ### Fix
 - [PA-2501] Fix base repository to ensure commit and rollback for database
