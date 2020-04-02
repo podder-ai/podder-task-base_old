@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+# [0.9.0]
+### Changed
+- [PA-3111] Enable configuring the path to the `pipeline.yml` file
+
 # [0.8.2]
 ### Changed
 - [PA-2858] Fix gRPC error by shortening gRPC server's TCP connection keep alive
