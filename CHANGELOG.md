@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+# [0.9.1]
+### Changed
+- [PA-3111] Stop using logger class from TaskApiExecutor to avoid duplicate log outputs
+
 # [0.9.0]
 ### Changed
 - [PA-3111] Enable configuring the path to the `pipeline.yml` file
