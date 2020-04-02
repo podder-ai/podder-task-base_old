@@ -3,10 +3,8 @@ import traceback
 from typing import Any
 
 from podder_task_base import Context, settings
-from podder_task_base.log import logger
 
 
-@logger.class_logger
 class TaskApiExecutor(object):
     def __init__(self, execution_task, gprc_pb2):
         self.execution_task = execution_task
@@ -23,7 +21,7 @@ class TaskApiExecutor(object):
             outputs = self.execution_task(context).execute(inputs)
             task_response = self._convert_to_task_response(dag_id, outputs)
         except Exception as e:
-            self.logger.error(traceback.format_exc())
+            print(traceback.format_exc())
             outputs = self._add_error_to_outputs(inputs, e)
             task_response = self._convert_to_task_response(dag_id, outputs)
 
