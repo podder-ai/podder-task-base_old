@@ -9,7 +9,7 @@ from .log_setting import LogSetting
 
 class Logger(object):
     TRACE_LOG_LEVEL = 5
-    
+
     def __init__(self):
         self.start_time = time.time()
         self.task_start_time = time.time()
